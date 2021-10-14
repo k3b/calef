@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.k3b.android.ical2txt">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ical2txt"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <activity
+            android:name="de.k3b.android.ical2txt.ICal2TextActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <data android:mimeType="text/x-vcalendar" />
+                <data android:mimeType="text/calendar" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
