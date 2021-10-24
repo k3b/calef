@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 by k3b.
  *
- * This file is part of ical2txt https://github.com/k3b/ical2txt/
+ * This file is part of ics2txt https://github.com/k3b/ics2txt/
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -16,7 +16,14 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>
  */
-package de.k3b.ical2txt;
+package de.k3b.ics2txt;
+
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_NOTES_COMPATIBILITY;
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_OUTLOOK_COMPATIBILITY;
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_RELAXED_PARSING;
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_RELAXED_UNFOLDING;
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_RELAXED_VALIDATION;
+import static net.fortuna.ical4j.util.CompatibilityHints.setHintEnabled;
 
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ComponentList;
@@ -24,14 +31,19 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Summary;
+import net.fortuna.ical4j.util.MapTimeZoneCache;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 
 @SuppressWarnings("ConstantConditions")
@@ -60,6 +72,21 @@ public class CalendarPrinter {
     private static final Logger LOGGER = LoggerFactory.getLogger(LOG_TAG);
     public static boolean debugEnabled = false;
     private static int nextId = 1;
+    private static Pattern quotedPritable = Pattern.compile(".*=[0-9a-fA-F]{2}.*");
+    private static QuotedPrintableCodec decoder = new QuotedPrintableCodec(StandardCharsets.UTF_8);
+
+    static {
+        // prevent online download of timezones to translate events from utc to local time
+        System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache.class.getName());
+
+        // CompatibilityHints.setHintEnabled(setHintEnabled.KEY_XXXX,true) : Make as much compatible as possible
+        setHintEnabled(KEY_RELAXED_UNFOLDING, true);
+        setHintEnabled(KEY_RELAXED_PARSING, true);
+        setHintEnabled(KEY_RELAXED_VALIDATION, true);
+        setHintEnabled(KEY_OUTLOOK_COMPATIBILITY, true);
+        setHintEnabled(KEY_NOTES_COMPATIBILITY, true);
+    }
+
     private final DateFormat formatDateTime;
     private int id = nextId++;
 
@@ -122,12 +149,23 @@ public class CalendarPrinter {
         return new SimpleDateFormat(pattern.toString(), loc);
     }
 
+    protected static String decode(String val) {
+        if (val != null && quotedPritable.matcher(val).matches()) {
+            // microsoft vsc files quotedPritable is not handled by ical4j
+            try {
+                return decoder.decode(val);
+            } catch (DecoderException e) {
+            }
+        }
+        return val;
+    }
+
     public String toString(Calendar calendar) {
         StringBuilder result = new StringBuilder();
-        ComponentList<VEvent> events = calendar.getComponents(VEvent.VEVENT);
+        ComponentList events = calendar.getComponents(VEvent.VEVENT);
         if (events != null) {
-            for (VEvent event : events) {
-                add(result, event);
+            for (Object event : events) {
+                add(result, (VEvent) event);
             }
         }
         return result.toString();
@@ -140,11 +178,11 @@ public class CalendarPrinter {
     }
 
     private String getString(Description value) {
-        return (value != null) ? value.getValue() : null;
+        return decode((value != null) ? value.getValue() : null);
     }
 
     private String getString(Summary value) {
-        return (value != null) ? value.getValue() : null;
+        return decode((value != null) ? value.getValue() : null);
     }
 
     private Date getDate(DtStart startDate) {

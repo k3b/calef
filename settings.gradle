@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "ical2txt"
+rootProject.name = "ics2txt"

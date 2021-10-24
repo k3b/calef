@@ -8,13 +8,16 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
         exclude '**/package-info.java'
+        exclude 'META-INF/groovy-release-info.properties'
+        exclude 'META-INF/INDEX.LIST'
         exclude('META-INF/groovy/**')       //  124 files (uncompressed 215kb) with unused language specific rules
+        exclude('zoneinfo-global/**')       //  ?? nearly a duplicate of zoneinfo 217KB ??
 
         exclude('org/apache/commons/codec/language/bm/*.txt')       //  124 files (uncompressed 215kb) with unused language specific rules
     }
 
     defaultConfig {
-        applicationId "de.k3b.android.ical2txt"
+        applicationId "de.k3b.android.ics2txt"
         // Android 4.0 (api14)
         minSdkVersion 14
         targetSdkVersion 30
@@ -52,7 +55,9 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core:1.6.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
+
+    // ical4j see https://ical4j.github.io/ical4j-user-guide/examples/
 //    implementation 'org.mnode.ical4j:ical4j:3.1.0' // requires api-26
 //    implementation 'org.mnode.ical4j:ical4j:3.0.29' // requires api-26
 //    implementation 'org.mnode.ical4j:ical4j:1.0.8' // most recent version 1.x: compiles with api-7 + java6
