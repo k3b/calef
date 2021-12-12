@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "ics2txt"
+rootProject.name = "calef"

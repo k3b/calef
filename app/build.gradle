@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "de.k3b.android.ics2txt"
+        applicationId "de.k3b.android.calef"
         // Android 4.0 (api14)
         minSdkVersion 14
         targetSdkVersion 30

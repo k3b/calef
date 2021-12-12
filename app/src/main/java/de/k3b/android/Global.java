@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2021 k3b
  *
- * This file is part of ics2txt https://github.com/k3b/ics2txt/ .
+ * This file is part of calef (calendar entry formatter) https://github.com/k3b/calef/ .
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ public class Global {
      */
     public static final String PREF_KEY_USER_LOCALE = "user_locale";
 
-    public static final String LOG_CONTEXT = "ics2txt";
+    public static final String LOG_CONTEXT = "calef";
     /**
      * true: addToCompressQue several Log.d(...) to show what is going on.
      * debugEnabled is updated by the SettingsActivity

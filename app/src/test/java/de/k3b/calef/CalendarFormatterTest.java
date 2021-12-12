@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 by k3b.
  *
- * This file is part of ics2txt https://github.com/k3b/ics2txt/
+ * This file is part of calef (calendar entry formatter) https://github.com/k3b/calef/
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>
  */
-package de.k3b.ics2txt;
+package de.k3b.calef;
 
 import static org.junit.Assert.assertEquals;
-import static de.k3b.ics2txt.CalendarPrinter.SHORT;
+import static de.k3b.calef.CalendarFormatter.SHORT;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 
@@ -29,16 +29,16 @@ import java.io.StringReader;
 import java.util.Date;
 import java.util.Locale;
 
-public class CalendarPrinterTest {
+public class CalendarFormatterTest {
     private static final Date DATE_TIME_20211224 = new Date(121, 12 - 1, 24, 12, 34);
 
     @Test
     public void add_germanyShort_ok() {
-        CalendarPrinter.debugEnabled = true;
-        CalendarPrinter calendarPrinter = new CalendarPrinter(SHORT, SHORT, SHORT, Locale.GERMANY);
+        CalendarFormatter.debugEnabled = true;
+        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.GERMANY);
 
         StringBuilder result = new StringBuilder();
-        calendarPrinter.add(result, DATE_TIME_20211224,
+        calendarFormatter.add(result, DATE_TIME_20211224,
                 "summary", "description");
         // android "📅Fr. 24.12.21 12:34..."
         // linux "📅Fr 24.12.21 12:34..."
@@ -49,11 +49,11 @@ public class CalendarPrinterTest {
 
     @Test
     public void add_usShort_ok() {
-        CalendarPrinter.debugEnabled = true;
-        CalendarPrinter calendarPrinter = new CalendarPrinter(SHORT, SHORT, SHORT, Locale.US);
+        CalendarFormatter.debugEnabled = true;
+        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.US);
 
         StringBuilder result = new StringBuilder();
-        calendarPrinter.add(result, DATE_TIME_20211224,
+        calendarFormatter.add(result, DATE_TIME_20211224,
                 "summary", "description");
         String actual = result.toString();
         assertEquals("📅Fri 12/24/21 12:34 PM summary\n" +
@@ -76,11 +76,11 @@ public class CalendarPrinterTest {
                 "DTEND:20211028T165400Z\n" +
                 "END:VEVENT\n" +
                 "END:VCALENDAR\n";
-        CalendarPrinter.debugEnabled = true;
+        CalendarFormatter.debugEnabled = true;
 
-        CalendarPrinter calendarPrinter = new CalendarPrinter(SHORT, SHORT, SHORT, Locale.GERMANY);
+        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.GERMANY);
 
-        String actual = calendarPrinter.toString(new CalendarBuilder()
+        String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
         assertEquals("📅Do. 28.10.21 18:40 18:50 Bus → Bahnhof\n" +
                 "18:53 Zuhause\n" +
@@ -107,11 +107,11 @@ public class CalendarPrinterTest {
                 "DURATION:P780S\n" +
                 "END:VEVENT\n" +
                 "END:VCALENDAR\n";
-        CalendarPrinter.debugEnabled = true;
+        CalendarFormatter.debugEnabled = true;
 
-        CalendarPrinter calendarPrinter = new CalendarPrinter(SHORT, SHORT, SHORT, Locale.GERMANY);
+        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.GERMANY);
 
-        String actual = calendarPrinter.toString(new CalendarBuilder()
+        String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
         assertEquals("📅Do. 28.10.21 18:40 Test\n" +
                 "🚌 Hallo Welt\r\n" +
@@ -119,8 +119,8 @@ public class CalendarPrinterTest {
     }
 
     @Test
-    public void decode_nl_ok() throws Exception {
-        String actual = CalendarPrinter.decode("hello=0D=0Aworld");
+    public void decode_newline_ok() {
+        String actual = CalendarFormatter.decode("hello=0D=0Aworld");
         assertEquals("hello\r\n" +
                 "world", actual);
     }

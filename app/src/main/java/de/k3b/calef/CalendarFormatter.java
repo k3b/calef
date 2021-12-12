@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 by k3b.
  *
- * This file is part of ics2txt https://github.com/k3b/ics2txt/
+ * This file is part of calef (calendar entry formatter) https://github.com/k3b/calef/
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>
  */
-package de.k3b.ics2txt;
+package de.k3b.calef;
 
 import static net.fortuna.ical4j.util.CompatibilityHints.KEY_NOTES_COMPATIBILITY;
 import static net.fortuna.ical4j.util.CompatibilityHints.KEY_OUTLOOK_COMPATIBILITY;
@@ -38,7 +38,6 @@ import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,8 +46,8 @@ import java.util.regex.Pattern;
 
 
 @SuppressWarnings("ConstantConditions")
-public class CalendarPrinter {
-    public static final String LOG_TAG = "k3b-CalendarPrinter";
+public class CalendarFormatter {
+    public static final String LOG_TAG = "k3b-CalendarForm";
     /**
      * OFF this part is suppressed
      */
@@ -72,8 +71,8 @@ public class CalendarPrinter {
     private static final Logger LOGGER = LoggerFactory.getLogger(LOG_TAG);
     public static boolean debugEnabled = false;
     private static int nextId = 1;
-    private static Pattern quotedPritable = Pattern.compile(".*=[0-9a-fA-F]{2}.*");
-    private static QuotedPrintableCodec decoder = new QuotedPrintableCodec(StandardCharsets.UTF_8);
+    private static final Pattern quotedPritable = Pattern.compile(".*=[0-9a-fA-F]{2}.*");
+    private static final QuotedPrintableCodec decoder = new QuotedPrintableCodec();
 
     static {
         // prevent online download of timezones to translate events from utc to local time
@@ -90,15 +89,15 @@ public class CalendarPrinter {
     private final DateFormat formatDateTime;
     private int id = nextId++;
 
-    public CalendarPrinter() {
+    public CalendarFormatter() {
         this(SHORT, SHORT, MEDIUM, Locale.getDefault());
     }
 
-    public CalendarPrinter(int dateStyle, int timeStyle, int dayStyle, Locale loc) {
+    public CalendarFormatter(int dateStyle, int timeStyle, int dayStyle, Locale loc) {
         this(getDateFormat(nextId + 1, dateStyle, timeStyle, dayStyle, loc));
     }
 
-    public CalendarPrinter(DateFormat formatDateTime) {
+    public CalendarFormatter(DateFormat formatDateTime) {
         this.id++;
         this.formatDateTime = formatDateTime;
     }
