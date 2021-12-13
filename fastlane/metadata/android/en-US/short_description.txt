@@ -1,0 +1,2 @@
+Select an entry in Android-Kalender and send/share the entry's content as human readable text.
+

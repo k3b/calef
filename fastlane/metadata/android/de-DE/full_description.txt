@@ -1,0 +1,15 @@
+Normalerweise werden Kalender-Einträge einem technischen Format
+gesendet/geteilt ("ICS" oder "VCS") das ein Kalenderprogramm interpretieren kann für einen Menschen aber
+unverständlich ist.
+
+CalEF empfängt das technische Format wandelt es um und sendet den erzeugten lesbaren text weiter.
+
+Voraussetzungen:
+
+<ul>
+<li>Android-4.4 (api 19) Gerät.</li>
+<li>Berechtigungen<<ul>
+     <li>Keine</li>
+     </ul>
+/li>
+</ul>
