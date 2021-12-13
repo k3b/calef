@@ -2,7 +2,7 @@
 
 Select an entry in Android-Kalender and send/share the entry's content as human readable text.
 
-Usually calendar entries are shared in the human-unreadable technical format "ICS" (or "VCS") that
+Usually calendar entries are shared in human-unreadable technical format "ICS" (or "VCS") that
 calendar programs can read.
 
 CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.
