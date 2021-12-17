@@ -1,4 +1,4 @@
-# ![](https://github.com/k3b/calef/raw/master/app/src/main/res/drawable/calef.png) CalEF (Calendar Entry Formatter)
+# ![](https://github.com/k3b/calef/raw/master/app/src/main/res/drawable-xxxhdpi/calef.png) CalEF (Calendar Entry Formatter)
 
 Select an entry in Android-Kalender and send/share the entry's content as human readable text.
 
