@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 by k3b.
  *
- * This file is part of calef (calendar entry formatter) https://github.com/k3b/calef/
+ * This file is part of CalEF (Calendar Entry Formatter) https://github.com/k3b/calef/
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
