@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+Copyright (C) 2021 k3b
+
+This file is part of CalEF (Calendar Entry Formatter) https://github.com/k3b/calef/
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program. If not, see <http://www.gnu.org/licenses/>
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:icon="@drawable/calef"
+    android:key="preferences">
+    <PreferenceCategory
+        android:key="first_category"
+        android:title="@string/pref_settings_title">
+
+        <!--
+            example 📅Do. 28.10.21 18:40
+
+            locale  [English US 🇺🇸__]v
+            day     [short__________]v
+            date    [medium_________]v
+            time    [medium_________]v
+
+            [X] DebugEnabled
+
+         -->
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="isDebugEnabled"
+            android:summary="@string/pref_debug_summary"
+            android:title="@string/pref_debug_title" />
+
+        <!-- Support to change locale at runtime -->
+        <ListPreference
+            android:defaultValue=""
+            android:entries="@array/pref_mode_names"
+            android:entryValues="@array/pref_mode_values"
+            android:key="mode_day"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/settings_mode_day_title" />
+
+        <ListPreference
+            android:defaultValue=""
+            android:entries="@array/pref_mode_names"
+            android:entryValues="@array/pref_mode_values"
+            android:key="mode_date"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/settings_mode_date_title" />
+
+        <ListPreference
+            android:defaultValue=""
+            android:entries="@array/pref_mode_names"
+            android:entryValues="@array/pref_mode_values"
+            android:key="mode_time"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/settings_mode_time_title" />
+
+        <ListPreference
+            android:defaultValue=""
+            android:entries="@array/pref_locale_names"
+            android:entryValues="@array/pref_locale_values"
+            android:key="user_locale"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/settings_locale_title" />
+
+        <Preference
+            android:key="mode_example"
+            android:title="@string/settings_mode_example_title" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -23,6 +23,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.util.Locale;
+
 import de.k3b.android.Global;
 import de.k3b.calef.CalendarFormatter;
 
@@ -30,13 +32,17 @@ import de.k3b.calef.CalendarFormatter;
  * implements SettingsData from android preferences
  */
 public class SettingsImpl {
+    public static final String PREF_MODE_DAY = "mode_day";
+    public static final String PREF_MODE_DATE = "mode_date";
+    public static final String PREF_MODE_TIME = "mode_time";
+
     private SettingsImpl() {
     }
 
     /**
-     * Load values from prefs. return true, if zip output dir is writable
+     * Load values from prefs. return current formatter
      */
-    public static boolean init(final Context context) {
+    public static CalendarFormatter init(final Context context) {
         final SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
 
@@ -44,7 +50,13 @@ public class SettingsImpl {
                 "isDebugEnabled", Global.debugEnabled);
         CalendarFormatter.debugEnabled = Global.debugEnabled;
 
-        return true;
+        CalendarFormatter formatter = new CalendarFormatter(
+                Locale.getDefault(),
+                getPrefValue(prefs, SettingsImpl.PREF_MODE_DAY, CalendarFormatter.STYLE.MEDIUM),
+                getPrefValue(prefs, SettingsImpl.PREF_MODE_DATE, CalendarFormatter.STYLE.SHORT),
+                getPrefValue(prefs, SettingsImpl.PREF_MODE_TIME, CalendarFormatter.STYLE.SHORT));
+
+        return formatter;
     }
 
     /**

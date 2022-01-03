@@ -36,7 +36,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.k3b.calef.CalendarFormatter;
+import de.k3b.android.Global;
 
 /**
  * Translates an ICS/VCS stream to a human readable Text.
@@ -44,7 +44,6 @@ import de.k3b.calef.CalendarFormatter;
 public class CalefActivity extends Activity {
     private static final String TAG = "k3b.calef";
     private static final Logger logger = LoggerFactory.getLogger(TAG);
-    private static final CalendarFormatter CALENDAR_FORMATTER = new CalendarFormatter();
 
     public static void close(Closeable stream, Object source) {
         if (stream != null) {
@@ -59,23 +58,44 @@ public class CalefActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        Uri uri;
-        if (intent != null && null != (uri = intent.getParcelableExtra(Intent.EXTRA_STREAM))) {
-            logger.info("onCreate {}", intent.toUri(Intent.URI_INTENT_SCHEME));
+        Intent intentIn = getIntent();
+        if (intentIn != null) {
+            Uri uri = intentIn.getParcelableExtra(Intent.EXTRA_STREAM); // used by send
+            if (uri == null) {
+                uri = intentIn.getData(); // used by sendTo and view
+            }
 
-            InputStream in = null;
-            try {
-                in = getContentResolver().openInputStream(uri);
-                CalendarBuilder builder = new CalendarBuilder();
-                Calendar calendar = builder.build(in);
-                String text = CALENDAR_FORMATTER.toString(calendar);
+            if (uri != null) {
+                if (Global.debugEnabled) {
+                    logger.info("onCreate {}", intentIn.toUri(Intent.URI_INTENT_SCHEME));
+                }
 
-                // TODO
-            } catch (Exception ex) {
-                logger.warn("Error in onCreate " + uri, ex);
-            } finally {
-                close(in, uri);
+                InputStream in = null;
+                try {
+                    in = getContentResolver().openInputStream(uri);
+                    CalendarBuilder builder = new CalendarBuilder();
+                    Calendar calendar = builder.build(in);
+                    String textLang = SettingsImpl.init(this).toString(calendar);
+
+                    if (Global.debugEnabled) {
+                        logger.info("Result {}", textLang);
+                    }
+
+                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+
+                    // email subject only first line
+                    String textKurz = textLang.split("\n\r")[0];
+                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, textKurz);
+                    intent.putExtra(android.content.Intent.EXTRA_TEXT, textLang);
+                    startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
+                    finishActivity(RESULT_OK);
+
+                } catch (Exception ex) {
+                    logger.warn("Error in onCreate " + uri, ex);
+                } finally {
+                    close(in, uri);
+                }
             }
         }
     }

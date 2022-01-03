@@ -24,18 +24,27 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Date;
+import java.util.Locale;
+
 import de.k3b.android.Global;
 import de.k3b.android.widget.LocalizedActivity;
+import de.k3b.calef.CalendarFormatter;
 
 /**
  * show settings/config activity. On Start and Exit checks if data is valid.
  */
 public class SettingsActivity extends PreferenceActivity {
     private SharedPreferences prefsInstance = null;
-    private ListPreference defaultLocalePreference;  // #6: Support to change locale at runtime
+    private ListPreference prefLocale;  // Support to change locale at runtime
+    private ListPreference prefDay;
+    private ListPreference prefDate;
+    private ListPreference prefTime;
+    private Preference prefExample;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -47,10 +56,14 @@ public class SettingsActivity extends PreferenceActivity {
 
         prefsInstance = PreferenceManager
                 .getDefaultSharedPreferences(this);
-        // #6: Support to change locale at runtime
-        defaultLocalePreference =
-                (ListPreference) findPreference(Global.PREF_KEY_USER_LOCALE);
-        defaultLocalePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+        prefLocale = (ListPreference) findPreference(Global.PREF_KEY_USER_LOCALE);
+        prefDay = (ListPreference) findPreference(SettingsImpl.PREF_MODE_DAY);
+        prefDate = (ListPreference) findPreference(SettingsImpl.PREF_MODE_DATE);
+        prefTime = (ListPreference) findPreference(SettingsImpl.PREF_MODE_TIME);
+        prefExample = findPreference("mode_example");
+
+        prefLocale.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 setLanguage((String) newValue);
@@ -59,24 +72,73 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        // #6: Support to change locale at runtime
-        updateSummary();
+        Preference.OnPreferenceChangeListener onPreferenceChangeListener = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (Global.debugEnabled) {
+                    Log.i(Global.LOG_CONTEXT, "Update from " + preference.getTitle());
+                }
+                updateSummary((ListPreference) preference, (String) newValue);
+                return true; // change is allowed
+            }
+        };
+
+        prefDay.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefDate.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefTime.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        showValues();
     }
 
-    // #6: Support to change locale at runtime
+    private void showValues() {
+        setLanguage(prefLocale.getValue());
+        setPref(prefDay.getValue(), prefDay, R.array.pref_mode_names);
+        setPref(prefDate.getValue(), prefDate, R.array.pref_mode_names);
+        setPref(prefTime.getValue(), prefTime, R.array.pref_mode_names);
+        updateSummary(null, null);
+    }
+
     // This is used to show the status of some preference in the description
-    private void updateSummary() {
-        final String languageKey = prefsInstance.getString(Global.PREF_KEY_USER_LOCALE, "");
-        setLanguage(languageKey);
+    private void updateSummary(ListPreference preference, String newValue) {
+        // setLanguage(languageKey);
+        if (preference != null) {
+            preference.setValue(newValue);
+            setPref(newValue, preference, R.array.pref_mode_names);
+        }
+
+        CalendarFormatter formatter = new CalendarFormatter(
+                Locale.getDefault(),
+                getInt(prefDay, CalendarFormatter.STYLE.MEDIUM),
+                getInt(prefDate, CalendarFormatter.STYLE.SHORT),
+                getInt(prefTime, CalendarFormatter.STYLE.SHORT));
+        if (Global.debugEnabled) {
+            Log.i(Global.LOG_CONTEXT, "updateSummary " + Locale.getDefault() +
+                    ", " + getInt(prefDay, CalendarFormatter.STYLE.MEDIUM) +
+                    ", " + getInt(prefDate, CalendarFormatter.STYLE.SHORT) +
+                    ", " + getInt(prefTime, CalendarFormatter.STYLE.SHORT) +
+                    "");
+        }
+
+        prefExample.setSummary(formatter.add(new StringBuilder(), new Date(), null, null));
+    }
+
+    private int getInt(ListPreference prefDay, int defaultValue) {
+        String strValue = (prefDay == null) ? null : prefDay.getValue();
+        if (strValue != null && !strValue.isEmpty()) {
+            try {
+                return Integer.parseInt(strValue);
+            } catch (Throwable ignore) {
+            }
+        }
+        return defaultValue;
     }
 
     // #6: Support to change locale at runtime
     private void setLanguage(String languageKey) {
-        setPref(languageKey, defaultLocalePreference, R.array.pref_locale_names);
+        setPref(languageKey, prefLocale, R.array.pref_locale_names);
     }
 
-    private void setPref(String key, ListPreference listPreference, int arrayResourceId) {
-        int index = listPreference.findIndexOfValue(key);
+    private void setPref(String value, ListPreference listPreference, int arrayResourceId) {
+        int index = listPreference.findIndexOfValue(value);
         String summary = "";
 
         if (index >= 0) {
@@ -86,7 +148,6 @@ public class SettingsActivity extends PreferenceActivity {
             }
         }
         listPreference.setSummary(summary);
-
     }
 
     @Override

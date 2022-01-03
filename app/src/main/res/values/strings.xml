@@ -38,4 +38,5 @@ this program. If not, see <http://www.gnu.org/licenses/>
     <string name="settings_mode_medium">medium</string>
     <string name="settings_mode_long">long</string>
     <string name="settings_mode_full">full</string>
+    <string name="share_using">Send Calendar as text to</string>
 </resources>

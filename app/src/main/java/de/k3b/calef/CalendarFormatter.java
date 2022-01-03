@@ -47,30 +47,14 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("ConstantConditions")
 public class CalendarFormatter {
-    public static final String LOG_TAG = "k3b-CalendarForm";
-    /**
-     * OFF this part is suppressed
-     */
-    public static final int OFF = -1;
-    /**
-     * SHORT is completely numeric, such as 12.13.52 or 3:30pm
-     */
-    public static final int SHORT = java.text.DateFormat.SHORT;
-    /**
-     * MEDIUM is longer, such as Jan 12, 1952
-     */
-    public static final int MEDIUM = java.text.DateFormat.MEDIUM;
-    /**
-     * LONG is longer, such as January 12, 1952 or 3:30:32pm
-     */
-    public static final int LONG = java.text.DateFormat.LONG;
-    /**
-     * FULL is pretty completely specified, such as Tuesday, April 12, 1952 AD or 3:30:42pm PST.
-     */
-    public static final int FULL = java.text.DateFormat.FULL;
+    public static final String LOG_TAG = "k3b-CalEF";
+    private static int nextDebugId = 1;
     private static final Logger LOGGER = LoggerFactory.getLogger(LOG_TAG);
     public static boolean debugEnabled = false;
-    private static int nextId = 1;
+    /**
+     * SimpleDateFormat that is used if hh:mm is not 00:00
+     */
+    private final DateFormat formatDateTime;
     private static final Pattern quotedPritable = Pattern.compile(".*=[0-9a-fA-F]{2}.*");
     private static final QuotedPrintableCodec decoder = new QuotedPrintableCodec();
 
@@ -86,43 +70,51 @@ public class CalendarFormatter {
         setHintEnabled(KEY_NOTES_COMPATIBILITY, true);
     }
 
-    private final DateFormat formatDateTime;
-    private int id = nextId++;
+    /**
+     * SimpleDateFormat that is used if hh:mm is 00:00
+     */
+    private final DateFormat formatDateWithoutTime;
+    /**
+     * used for debugging to differentiate which CalendarFormatter instance is used
+     */
+    private int debugId = nextDebugId++;
 
     public CalendarFormatter() {
-        this(SHORT, SHORT, MEDIUM, Locale.getDefault());
+        this(Locale.getDefault(), STYLE.MEDIUM, STYLE.SHORT, STYLE.SHORT);
     }
 
-    public CalendarFormatter(int dateStyle, int timeStyle, int dayStyle, Locale loc) {
-        this(getDateFormat(nextId + 1, dateStyle, timeStyle, dayStyle, loc));
+    public CalendarFormatter(Locale loc, int dayStyle, int dateStyle, int timeStyle) {
+        this(getDateFormat(nextDebugId + 1, loc, dayStyle, dateStyle, timeStyle),
+                getDateFormat(nextDebugId + 1, loc, dayStyle, dateStyle, STYLE.OFF));
     }
 
-    public CalendarFormatter(DateFormat formatDateTime) {
-        this.id++;
+    public CalendarFormatter(DateFormat formatDateTime, DateFormat formatDateWithoutTime) {
+        this.debugId++;
         this.formatDateTime = formatDateTime;
+        this.formatDateWithoutTime = formatDateWithoutTime;
     }
 
     @SuppressWarnings("ConstantConditions")
-    private static DateFormat getDateFormat(int id, int dateStyle, int timeStyle, int dayStyle, Locale loc) {
+    private static DateFormat getDateFormat(int debugId, Locale loc, int dayStyle, int dateStyle, int timeStyle) {
         DateFormat format = null; // new SimpleDateFormat("'📅'EE dd.MM HH:mm z 'kw' w");
         // https://howtodoinjava.com/java/date-time/java-date-formatting/
         // EE=Day name i.e. mo=monday
         // z=timezone (ie pst or MEZ)
         // w=week-of-year
 
-        if (dateStyle != OFF && timeStyle != OFF) {
+        if (dateStyle != STYLE.OFF && timeStyle != STYLE.OFF) {
             format = DateFormat.getDateTimeInstance(dateStyle, timeStyle, loc);
         } else //noinspection ConstantConditions
-            if (dateStyle != OFF && timeStyle == OFF) {
+            if (dateStyle != STYLE.OFF && timeStyle == STYLE.OFF) {
                 format = DateFormat.getDateInstance(dateStyle, loc);
-            } else if (dateStyle == OFF && timeStyle != OFF) {
+            } else if (dateStyle == STYLE.OFF && timeStyle != STYLE.OFF) {
                 format = DateFormat.getTimeInstance(timeStyle, loc);
-            } else if (dayStyle == OFF) {
+            } else if (dayStyle == STYLE.OFF) {
                 throw new IllegalArgumentException("Illegal date style " + dateStyle + ", time style " + timeStyle);
             }
 
         if (format != null && !(format instanceof SimpleDateFormat)) {
-            LOGGER.warn("getDateFormat#{}: Locale {} not supported using {}", id, loc, format);
+            LOGGER.warn("getDateFormat#{}: Locale {} not supported using {}", debugId, loc, format);
             return format;
         }
 
@@ -130,12 +122,12 @@ public class CalendarFormatter {
         pattern.append("'📅'");
 
         // "EEE" is day of week (i.e. monday)
-        if (dayStyle == SHORT) {
-            pattern.append("E ");
-        } else if (dayStyle == MEDIUM) {
+        if (dayStyle == STYLE.SHORT) {
             pattern.append("EE ");
-        } else if (dayStyle == LONG || dayStyle == FULL) {
+        } else if (dayStyle == STYLE.MEDIUM) {
             pattern.append("EEE ");
+        } else if (dayStyle == STYLE.LONG || dayStyle == STYLE.FULL) {
+            pattern.append("EEEE ");
         }
 
         if (format != null) {
@@ -143,11 +135,12 @@ public class CalendarFormatter {
         }
 
         if (debugEnabled) {
-            LOGGER.info("getDateFormat#{}(format={}, locale={})", id, pattern, loc);
+            LOGGER.info("getDateFormat#{}(format={}, locale={})", debugId, pattern, loc);
         }
         return new SimpleDateFormat(pattern.toString(), loc);
     }
 
+    /** executes un-escaping. I.E "=0D=0A" is translated back to "\r\n" */
     protected static String decode(String val) {
         if (val != null && quotedPritable.matcher(val).matches()) {
             // microsoft vsc files quotedPritable is not handled by ical4j
@@ -157,6 +150,23 @@ public class CalendarFormatter {
             }
         }
         return val;
+    }
+
+    public StringBuilder add(StringBuilder result, Date dateTime, String summary, String description) {
+        if (dateTime != null) {
+            result.append(getFormat(dateTime)).append(" ");
+        }
+        if (summary != null) {
+            result.append(summary);
+        }
+
+        if (description != null) {
+            result.append("\n").append(description);
+        }
+        if (debugEnabled) {
+            LOGGER.info("add#{} => {}", debugId, result);
+        }
+        return result;
     }
 
     public String toString(Calendar calendar) {
@@ -192,19 +202,35 @@ public class CalendarFormatter {
         return null;
     }
 
-    public void add(StringBuilder result, Date dateTime, String summary, String description) {
-        if (dateTime != null) {
-            result.append(formatDateTime.format(dateTime)).append(" ");
+    private String getFormat(Date dateTime) {
+        if (dateTime.getHours() == 0 && dateTime.getMinutes() == 0) {
+            // suppress hours/minutes if 00:00
+            return formatDateWithoutTime.format(dateTime);
         }
-        if (summary != null) {
-            result.append(summary);
-        }
+        return formatDateTime.format(dateTime);
+    }
 
-        if (description != null) {
-            result.append("\n").append(description);
-        }
-        if (debugEnabled) {
-            LOGGER.info("add#{} => {}", id, result);
-        }
+    public static class STYLE {
+        /**
+         * OFF this part is suppressed
+         */
+        public static final int OFF = -1;
+        /**
+         * SHORT is completely numeric, such as 12.13.52 or 3:30pm
+         */
+        public static final int SHORT = java.text.DateFormat.SHORT;
+        /**
+         * MEDIUM is longer, such as Jan 12, 1952
+         */
+        public static final int MEDIUM = java.text.DateFormat.MEDIUM;
+        /**
+         * LONG is longer, such as January 12, 1952 or 3:30:32pm
+         */
+        public static final int LONG = java.text.DateFormat.LONG;
+        /**
+         * FULL is pretty completely specified, such as Tuesday, April 12, 1952 AD or 3:30:42pm PST.
+         */
+        public static final int FULL = java.text.DateFormat.FULL;
+
     }
 }

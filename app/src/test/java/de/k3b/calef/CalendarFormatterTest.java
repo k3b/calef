@@ -19,7 +19,7 @@
 package de.k3b.calef;
 
 import static org.junit.Assert.assertEquals;
-import static de.k3b.calef.CalendarFormatter.SHORT;
+import static de.k3b.calef.CalendarFormatter.STYLE;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 
@@ -31,11 +31,12 @@ import java.util.Locale;
 
 public class CalendarFormatterTest {
     private static final Date DATE_TIME_20211224 = new Date(121, 12 - 1, 24, 12, 34);
+    private static final Date DATE_TIME_20211224_WITHOUT_TIME = new Date(121, 12 - 1, 24);
 
     @Test
     public void add_germanyShort_ok() {
         CalendarFormatter.debugEnabled = true;
-        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.GERMANY);
+        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.GERMANY, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
 
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224,
@@ -50,13 +51,26 @@ public class CalendarFormatterTest {
     @Test
     public void add_usShort_ok() {
         CalendarFormatter.debugEnabled = true;
-        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.US);
+        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.US, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
 
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224,
                 "summary", "description");
         String actual = result.toString();
         assertEquals("📅Fri 12/24/21 12:34 PM summary\n" +
+                "description", actual);
+    }
+
+    @Test
+    public void add_usShortWithoutTime_ok() {
+        CalendarFormatter.debugEnabled = true;
+        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.US, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
+
+        StringBuilder result = new StringBuilder();
+        calendarFormatter.add(result, DATE_TIME_20211224_WITHOUT_TIME,
+                "summary", "description");
+        String actual = result.toString();
+        assertEquals("📅Fri 12/24/21 summary\n" +
                 "description", actual);
     }
 
@@ -78,7 +92,7 @@ public class CalendarFormatterTest {
                 "END:VCALENDAR\n";
         CalendarFormatter.debugEnabled = true;
 
-        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.GERMANY);
+        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.GERMANY, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
 
         String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
@@ -109,7 +123,7 @@ public class CalendarFormatterTest {
                 "END:VCALENDAR\n";
         CalendarFormatter.debugEnabled = true;
 
-        CalendarFormatter calendarFormatter = new CalendarFormatter(SHORT, SHORT, SHORT, Locale.GERMANY);
+        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.GERMANY, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
 
         String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
