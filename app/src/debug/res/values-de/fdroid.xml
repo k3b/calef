@@ -55,10 +55,8 @@ CalEF empfängt das technische Format wandelt es um und sendet den erzeugten les
 
 ## Kompatible mit
 
-* [Etar-Calendar](https://f-droid.org/en/packages/ws.xsoh.etar) version 1.0.29 or later (January
-  2022)
-* [Simple-Calendar](https://f-droid.org/packages/com.simplemobiletools.calendar.pro) version 4.0.0 or later (
-  May 2018)
+* [Etar-Calendar](https://f-droid.org/en/packages/ws.xsoh.etar) version 1.0.29 or later (January 2022)
+* [Simple-Calendar](https://f-droid.org/packages/com.simplemobiletools.calendar.pro) version 4.0.0 or later (May 2018)
 * Buildin Android-Calender (Tested with android-10 on LG device)
 
 "]]></string>
