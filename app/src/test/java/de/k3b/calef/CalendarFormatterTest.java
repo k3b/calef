@@ -41,11 +41,8 @@ public class CalendarFormatterTest {
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224,
                 "summary", "description");
-        // android "📅Fr. 24.12.21 12:34..."
-        // linux "📅Fr 24.12.21 12:34..."
-        String actual = result.toString().replace("Fr.", "Fr");
         assertEquals("📅Fr 24.12.21 12:34 summary\n" +
-                "description", actual);
+                "description", fix(result.toString()));
     }
 
     @Test
@@ -56,9 +53,8 @@ public class CalendarFormatterTest {
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224,
                 "summary", "description");
-        String actual = result.toString();
         assertEquals("📅Fri 12/24/21 12:34 PM summary\n" +
-                "description", actual);
+                "description", fix(result.toString()));
     }
 
     @Test
@@ -69,9 +65,8 @@ public class CalendarFormatterTest {
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224_WITHOUT_TIME,
                 "summary", "description");
-        String actual = result.toString();
         assertEquals("📅Fri 12/24/21 summary\n" +
-                "description", actual);
+                "description", fix(result.toString()));
     }
 
     @Test
@@ -96,14 +91,22 @@ public class CalendarFormatterTest {
 
         String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
-        assertEquals("📅Do. 28.10.21 18:40 18:50 Bus → Bahnhof\n" +
+        ;
+        assertEquals("📅Do 28.10.21 18:40 18:50 Bus → Bahnhof\n" +
                 "18:53 Zuhause\n" +
-                "  🚶 Fußweg 155 m für 2 min\n" +
+                " 🚶 Fußweg 155 m für 2 min\n" +
                 "18:55 Bushaltestelle\n" +
                 "\n" +
                 "18:55 Bushaltestelle\n" +
-                "  🚌 123 → Bahnhof\n" +
-                "19:07 Bahnhof", actual);
+                " 🚌 123 → Bahnhof\n" +
+                "19:07 Bahnhof", fix(actual));
+    }
+
+    // fix calendar string generation
+    // android "📅Fr. 24.12.21 12:34..."
+    // linux "📅Fr 24.12.21 12:34..."
+    private String fix(String actual) {
+        return actual.replace(". ", " ").replace("  ", " ");
     }
 
     @Test
@@ -127,15 +130,15 @@ public class CalendarFormatterTest {
 
         String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
-        assertEquals("📅Do. 28.10.21 18:40 Test\n" +
+        assertEquals("📅Do 28.10.21 18:40 Test\n" +
                 "🚌 Hallo Welt\r\n" +
-                "(Achtung: Zeiten können gemeldete Verspätungen enthalten)", actual);
+                "(Achtung: Zeiten können gemeldete Verspätungen enthalten)", fix(actual));
     }
 
     @Test
     public void decode_newline_ok() {
         String actual = CalendarFormatter.decode("hello=0D=0Aworld");
         assertEquals("hello\r\n" +
-                "world", actual);
+                "world", fix(actual));
     }
 }
