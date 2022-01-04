@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-Copyright (C) 2021 k3b
+Copyright (C) 2021-2022 k3b
 
 This file is part of CalEF (Calendar Entry Formatter) https://github.com/k3b/calef/
 
@@ -39,4 +39,8 @@ this program. If not, see <http://www.gnu.org/licenses/>
     <string name="settings_mode_long">long</string>
     <string name="settings_mode_full">full</string>
     <string name="share_using">Send Calendar as text to</string>
+    <string name="send_result_toast_message">CalEF send result: %s</string>
+
+    <!-- %1$s = source ICS-URI ; %2$s = exception-message -->
+    <string name="error_cannot_convert_or_resend">cannot send %1$s %2$s</string>
 </resources>

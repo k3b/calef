@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 k3b
+ * Copyright (C) 2021-2022 k3b
  *
  * This file is part of CalEF (Calendar Entry Formatter) https://github.com/k3b/calef/ .
  *

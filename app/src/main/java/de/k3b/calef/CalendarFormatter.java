@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 by k3b.
+ * Copyright (c) 2021-2022 by k3b.
  *
  * This file is part of CalEF (Calendar Entry Formatter) https://github.com/k3b/calef/
  *
@@ -204,9 +204,11 @@ public class CalendarFormatter {
 
     private String getFormat(Date dateTime) {
         if (dateTime.getHours() == 0 && dateTime.getMinutes() == 0) {
-            // suppress hours/minutes if 00:00
+            // suppress hours/minutes if 00:00 for localdate
             return formatDateWithoutTime.format(dateTime);
         }
+        // todo suppress hours/minutes if localdate converted to utc is 00:00
+        // if dateTime.getTimezoneOffset() == mhour/minute
         return formatDateTime.format(dateTime);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 by k3b.
+ * Copyright (c) 2021-2022 by k3b.
  *
  * This file is part of CalEF (Calendar Entry Formatter) https://github.com/k3b/calef/
  *
@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -44,6 +45,7 @@ import de.k3b.android.Global;
 public class CalefActivity extends Activity {
     private static final String TAG = "k3b.calef";
     private static final Logger logger = LoggerFactory.getLogger(TAG);
+    private static final int REQUEST_ID_SHARE_RESULT = 1;
 
     public static void close(Closeable stream, Object source) {
         if (stream != null) {
@@ -81,22 +83,50 @@ public class CalefActivity extends Activity {
                         logger.info("Result {}", textLang);
                     }
 
-                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                    intent.setType("text/plain");
+                    Intent startIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    startIntent.setType("text/plain");
 
                     // email subject only first line
                     String textKurz = textLang.split("\n\r")[0];
-                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, textKurz);
-                    intent.putExtra(android.content.Intent.EXTRA_TEXT, textLang);
-                    startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
-                    finishActivity(RESULT_OK);
+                    startIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, textKurz);
+                    startIntent.putExtra(android.content.Intent.EXTRA_TEXT, textLang);
+                    startIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
+                    startActivityForResult(Intent.createChooser(startIntent, getString(R.string.share_using)), REQUEST_ID_SHARE_RESULT);
                 } catch (Exception ex) {
-                    logger.warn("Error in onCreate " + uri, ex);
+                    logger.warn("Error in onCreate-startActivityForResult " + uri, ex);
+                    toast(getString(R.string.error_cannot_convert_or_resend, uri, ex.getMessage()));
+                    setResult(RESULT_CANCELED);
+                    finish();
                 } finally {
                     close(in, uri);
                 }
             }
         }
+    }
+
+    // support for onActivityResult
+    // CalendarApp -> CalefActivity -> result-send-Activity -> CalefActivity -> return-result-to-CalendarApp
+    // Forward result of result-send-Activity
+    // to caller of this activity {CalendarApp}.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ID_SHARE_RESULT) {
+            setResult(resultCode, data);
+            String message = "" + resultCode;
+            if (data != null) {
+                message += data.getData();
+            }
+            toast(message);
+            finish();
+        }
+
+    }
+
+    private void toast(String message) {
+        Toast.makeText(this,
+                getString(R.string.send_result_toast_message, message),
+                Toast.LENGTH_LONG).show();
     }
 }
