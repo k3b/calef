@@ -19,7 +19,6 @@
 
 package de.k3b.android.calef;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,11 +37,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.k3b.android.Global;
+import de.k3b.android.widget.LocalizedActivity;
+import de.k3b.calef.CalendarFormatter;
 
 /**
  * Translates an ICS/VCS stream to a human readable Text.
  */
-public class CalefActivity extends Activity {
+public class CalefActivity extends LocalizedActivity {
     private static final String TAG = "k3b.calef";
     private static final Logger logger = LoggerFactory.getLogger(TAG);
     private static final int REQUEST_ID_SHARE_RESULT = 1;
@@ -59,7 +60,9 @@ public class CalefActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        LocalizedActivity.fixLocale(this);    // Support to change locale at runtime
         super.onCreate(savedInstanceState);
+        CalendarFormatter formatter = SettingsImpl.init(this);
         Intent intentIn = getIntent();
         if (intentIn != null) {
             Uri uri = intentIn.getParcelableExtra(Intent.EXTRA_STREAM); // used by send
@@ -77,7 +80,7 @@ public class CalefActivity extends Activity {
                     in = getContentResolver().openInputStream(uri);
                     CalendarBuilder builder = new CalendarBuilder();
                     Calendar calendar = builder.build(in);
-                    String textLang = SettingsImpl.init(this).toString(calendar);
+                    String textLang = formatter.toString(calendar);
 
                     if (Global.debugEnabled) {
                         logger.info("Result {}", textLang);

@@ -33,6 +33,9 @@ android {
 
         }
         debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "debug_title", ""
             applicationIdSuffix ".debug"
             versionNameSuffix "-DEBUG"
             resValue "string", "debug_title", "DEBUG-" + getDate()

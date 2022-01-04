@@ -43,3 +43,4 @@
 -keepnames class ** { *; }
 -keepnames interface ** { *; }
 -keepnames enum ** { *; }
+-keep class net.fortuna.ical4j.util.MapTimeZoneCache
