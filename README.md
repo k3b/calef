@@ -17,7 +17,7 @@ CalEF receives the technical format and re-sends/re-shares it-s content as human
 
 * [Etar-Calendar](https://github.com/Etar-Group/Etar-Calendar/)  version 1.0.29 or later (January
   2022)
-* [Simple-Contacts](https://github.com/SimpleMobileTools/Simple-Contacts/) version 4.0.0 or later (
+* [Simple-Calendar](https://github.com/SimpleMobileTools/Simple-Calendar/) version 4.0.0 or later (
   May 2018)
 * Buildin Android-Calender (Tested with android-10 on LG device)
 

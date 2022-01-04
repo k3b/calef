@@ -1,15 +1,17 @@
-Normalerweise werden Kalender-Einträge einem technischen Format
+<p>Normalerweise werden Kalender-Einträge einem technischen Format
 gesendet/geteilt ("ICS" oder "VCS") das ein Kalenderprogramm interpretieren kann für einen Menschen aber
-unverständlich ist.
-
-CalEF empfängt das technische Format wandelt es um und sendet den erzeugten lesbaren text weiter.
-
-Voraussetzungen:
-
+unverständlich ist.</p>
+<p>CalEF empfängt das technische Format wandelt es um und sendet den erzeugten lesbaren text weiter.</p>
+<h2>Voraussetzungen:</h2>
 <ul>
-<li>Android-4.4 (api 19) Gerät.</li>
-<li>Berechtigungen<<ul>
-     <li>Keine</li>
-     </ul>
-/li>
+<li>Android-4.4 (api 19).</li>
+<li>Berechtigungen: keine</li>
+</ul>
+<h2>Kompatible mit</h2>
+<ul>
+<li><a href="https://f-droid.org/en/packages/ws.xsoh.etar">Etar-Calendar</a> version 1.0.29 or later (January
+  2022)</li>
+<li><a href="https://f-droid.org/packages/com.simplemobiletools.calendar.pro">Simple-Calendar</a> version 4.0.0 or later (
+  May 2018)</li>
+<li>Buildin Android-Calender (Tested with android-10 on LG device)</li>
 </ul>

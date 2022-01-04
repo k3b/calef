@@ -1,14 +1,16 @@
-Usually calendar entries are shared in the human-unreadable technical format "ICS" (or "VCS") that calendar
-programs can read.
-
-CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.
-
-Requirements:
-
+<p>Usually calendar entries are shared in the human-unreadable technical format "ICS" (or "VCS") that calendar
+programs can read.</p>
+<p>CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.</p>
+<h2>Requirements:</h2>
 <ul>
 <li>Android-4.4 (api 19).</li>
-<li>Permissions<<ul>
-     <li>None</li>
-     </ul>
-/li>
+<li>Permissions : None</li>
+</ul>
+<h2>Compatible with</h2>
+<ul>
+<li><a href="https://f-droid.org/en/packages/ws.xsoh.etar">Etar-Calendar</a> version 1.0.29 or later (January
+  2022)</li>
+<li><a href="https://f-droid.org/packages/com.simplemobiletools.calendar.pro">Simple-Calendar</a> version 4.0.0 or later (
+  May 2018)</li>
+<li>Buildin Android-Calender (Tested with android-10 on LG device)</li>
 </ul>

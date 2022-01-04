@@ -1,1 +1,1 @@
-Markiere im Android-Kalender einen Eintrag und sende/teile ihn als (für Menschen lesbaren) Text.
+Markiere Android-Kalender-Eintrag und sende/teile ihn als lesbaren Text.
