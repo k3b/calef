@@ -23,15 +23,22 @@ import static de.k3b.calef.CalendarFormatter.STYLE;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.StringReader;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class CalendarFormatterTest {
     private static final Date DATE_TIME_20211224 = new Date(121, 12 - 1, 24, 12, 34);
     private static final Date DATE_TIME_20211224_WITHOUT_TIME = new Date(121, 12 - 1, 24);
+
+    @BeforeClass
+    public static void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("CET"));
+    }
 
     @Test
     public void add_germanyShort_ok() {
