@@ -7,6 +7,12 @@ calendar programs can read.
 
 CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.
 
+* Translations via
+  crowdin.com: [![Crowdin](https://badges.crowdin.net/calef/localized.svg)](https://crowdin.com/project/calef)
+* Download: [<img src="https://f-droid.org/badge/get-it-on.png"
+  alt="Get it on F-Droid"
+  height="80">](https://f-droid.org/app/de.k3b.android.calef)
+
 ## Requirements:
 
 * Android-4.4 (api 19) or later
