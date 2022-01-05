@@ -42,6 +42,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 
@@ -130,14 +131,18 @@ public class CalendarFormatter {
             pattern.append("EEEE ");
         }
 
+        TimeZone timeZone = TimeZone.getDefault();
         if (format != null) {
             pattern.append(((SimpleDateFormat) format).toPattern().replace(",", ""));
+            timeZone = format.getTimeZone();
         }
 
         if (debugEnabled) {
             LOGGER.info("getDateFormat#{}(format={}, locale={})", debugId, pattern, loc);
         }
-        return new SimpleDateFormat(pattern.toString(), loc);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern.toString(), loc);
+        dateFormat.setTimeZone(timeZone);
+        return dateFormat;
     }
 
     /** executes un-escaping. I.E "=0D=0A" is translated back to "\r\n" */
