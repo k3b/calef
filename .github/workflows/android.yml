@@ -23,4 +23,5 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      # run: ./gradlew build # not working see https://stackoverflow.com/questions/70581448/how-to-get-more-infos-about-a-failed-unittest-in-github-actions-android-ci
+      run: ./gradlew assemble

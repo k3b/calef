@@ -21,8 +21,11 @@ android {
         // Android 4.0 (api14)
         minSdkVersion 14
         targetSdkVersion 30
+
         versionCode 1
         versionName "1.0.0"
+
+        // 1.0.0 (1) initial Release translated in en and de
     }
 
     buildTypes {
