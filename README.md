@@ -2,6 +2,8 @@
 
 Select an entry in Android-Kalender and send/share the entry's content as human readable text.
 
+![](https://github.com/k3b/calef/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/CalEF-Schema.png)
+
 Usually calendar entries are shared in human-unreadable technical format "ICS" (or "VCS") that
 calendar programs can read.
 
