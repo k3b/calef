@@ -8,9 +8,7 @@ programs can read.</p>
 </ul>
 <h2>Compatible with</h2>
 <ul>
-<li><a href="https://f-droid.org/en/packages/ws.xsoh.etar">Etar-Calendar</a> version 1.0.29 or later (January
-  2022)</li>
-<li><a href="https://f-droid.org/packages/com.simplemobiletools.calendar.pro">Simple-Calendar</a> version 4.0.0 or later (
-  May 2018)</li>
+<li><a href="https://f-droid.org/en/packages/ws.xsoh.etar">Etar-Calendar</a> version 1.0.29 or later (January 2022)</li>
+<li><a href="https://f-droid.org/packages/com.simplemobiletools.calendar.pro">Simple-Calendar</a> version 4.0.0 or later (May 2018)</li>
 <li>Buildin Android-Calender (Tested with android-10 on LG device)</li>
 </ul>
