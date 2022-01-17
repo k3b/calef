@@ -25,7 +25,7 @@ android {
         versionCode 2
         versionName "1.0.1"
 
-        // 1.0.1 (2) TODO
+        // 1.0.1 (2) fixed translation issues
         // 1.0.0 (1) initial Release translated in en and de
     }
 
