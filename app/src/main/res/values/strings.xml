@@ -18,19 +18,27 @@ this program. If not, see <http://www.gnu.org/licenses/>
 -->
 
 <resources>
+    <!-- Let app name "CalEF" as it is and tranlate "Calendar Entry Formatter" (if possible use the letters C E F ) -->
     <string name="app_name">CalEF: Calendar Entry Formatter</string>
 
     <string name="pref_settings_title">Settings</string>
     <string name="settings_locale_title">Language</string>
     <string name="settings_locale_os_language">System default</string>
 
-    <string name="pref_debug_title">Debug Mode</string>
-    <string name="pref_debug_summary">Debug Messages added to LogCat</string>
-
     <string name="settings_mode_day_title">Format Day</string>
     <string name="settings_mode_date_title">Format Date</string>
     <string name="settings_mode_time_title">Format Time</string>
     <string name="settings_mode_example_title">Example Day/Date/Time</string>
+    <string name="settings_mode_message_title">Message</string>
+    <string name="settings_message_last_used">Last used Calendar Event</string>
+
+    <!-- default content value will be content of settings_message_prefix_default -->
+    <string name="settings_message_prefix_title">Message prefix</string>
+
+    <!-- Default value to be added in Front of the result message if mode_message is medium or full -->
+    <string name="settings_message_prefix_default">I have added this to my calendar:</string>
+
+    <string name="settings_command_send_last">Send/share last</string>
 
     <!-- values for settings_mode_XXX_title -->
     <string name="settings_mode_off">off</string>
@@ -38,9 +46,14 @@ this program. If not, see <http://www.gnu.org/licenses/>
     <string name="settings_mode_medium">medium</string>
     <string name="settings_mode_long">long</string>
     <string name="settings_mode_full">full</string>
-    <string name="share_using">Send Calendar as text to</string>
-    <string name="send_result_toast_message">CalEF send result: %s</string>
 
+    <string name="share_using">Send Calendar as text to</string>
+
+    <string name="pref_debug_title">Debug Mode</string>
+    <string name="pref_debug_summary">Debug Messages added to LogCat</string>
+
+    <!-- result messsages: -->
+    <string name="send_result_toast_message">CalEF send result: %s</string>
     <!-- %1$s = source ICS-URI ; %2$s = exception-message -->
     <string name="error_cannot_convert_or_resend">cannot send %1$s %2$s</string>
 </resources>
