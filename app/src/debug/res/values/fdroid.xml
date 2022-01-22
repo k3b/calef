@@ -42,14 +42,18 @@
      and in github homepage.
      -->
     <string name="full_description"><![CDATA["
+Example Usecase: Send calendar enty as appointment confirmation Email.
+
 Usually calendar entries are shared in the human-unreadable technical format "ICS" (or "VCS") that calendar
 programs can read.
 
 CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.
 
+Date/Time is formatted according to current language/locale.
+
 ## Requirements:
 
-* Android-4.4 (api 19).
+* Android-4.4 (api 19) or later.
 * Permissions : None
 
 ## Compatible with

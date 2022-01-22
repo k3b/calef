@@ -42,15 +42,19 @@
      and in github homepage.
      -->
     <string name="full_description"><![CDATA["
-Normalerweise werden Kalender-Einträge einem technischen Format
+Beispiel: Versende einen Kalendereintrag per Email als Bestätigung einer Verabredung.
+
+Normalerweise werden Kalender-Einträge in einem technischen Format
 gesendet/geteilt ("ICS" oder "VCS") das ein Kalenderprogramm interpretieren kann für einen Menschen aber
 unverständlich ist.
 
 CalEF empfängt das technische Format wandelt es um und sendet den erzeugten lesbaren text weiter.
 
+Datum und Uhrzeit werden Land/Sprach-abhängig aufbereitet.
+
 ## Voraussetzungen:
 
-* Android-4.4 (api 19).
+* Android-4.0 (api 14) oder neuer.
 * Berechtigungen: keine
 
 ## Kompatible mit

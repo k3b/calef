@@ -4,10 +4,14 @@ Select an entry in Android-Calendar and send/share the entry's content as human 
 
 ![](https://github.com/k3b/calef/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/CalEF-Schema.png)
 
+Example Usecase: Send calendar enty as appointment confirmation Email.
+
 Usually calendar entries are shared in human-unreadable technical format "ICS" (or "VCS") that
 calendar programs can read.
 
 CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.
+
+Date/Time is formatted according to current language/locale.
 
 * Translations via
   crowdin.com: [![Crowdin](https://badges.crowdin.net/calef/localized.svg)](https://crowdin.com/project/calef)
@@ -17,7 +21,7 @@ CalEF receives the technical format and re-sends/re-shares it-s content as human
 
 ## Requirements:
 
-* Android-4.4 (api 19) or later
+* Android-4.0 (api 14) or later
 * Required Permissions:
   * none
 
