@@ -91,9 +91,9 @@ public class SettingsActivity extends PreferenceActivity {
 
     private void showValues() {
         setLanguage(prefLocale.getValue());
-        setPref(prefDay.getValue(), prefDay, R.array.pref_mode_names);
-        setPref(prefDate.getValue(), prefDate, R.array.pref_mode_names);
-        setPref(prefTime.getValue(), prefTime, R.array.pref_mode_names);
+        setPrefSummary(prefDay);
+        setPrefSummary(prefDate);
+        setPrefSummary(prefTime);
         updateSummary(null, null);
     }
 
@@ -102,17 +102,17 @@ public class SettingsActivity extends PreferenceActivity {
         // setLanguage(languageKey);
         if (preference != null) {
             preference.setValue(newValue);
-            setPref(newValue, preference, R.array.pref_mode_names);
+            setPrefSummary(preference, newValue);
         }
 
         CalendarFormatter formatter = new CalendarFormatter(
                 Locale.getDefault(),
-                getInt(prefDay, CalendarFormatter.STYLE.MEDIUM),
+                getInt(prefDay, CalendarFormatter.STYLE.SHORT),
                 getInt(prefDate, CalendarFormatter.STYLE.SHORT),
                 getInt(prefTime, CalendarFormatter.STYLE.SHORT));
         if (Global.debugEnabled) {
             Log.i(Global.LOG_CONTEXT, "updateSummary " + Locale.getDefault() +
-                    ", " + getInt(prefDay, CalendarFormatter.STYLE.MEDIUM) +
+                    ", " + getInt(prefDay, CalendarFormatter.STYLE.SHORT) +
                     ", " + getInt(prefDate, CalendarFormatter.STYLE.SHORT) +
                     ", " + getInt(prefTime, CalendarFormatter.STYLE.SHORT) +
                     "");
@@ -134,15 +134,19 @@ public class SettingsActivity extends PreferenceActivity {
 
     // #6: Support to change locale at runtime
     private void setLanguage(String languageKey) {
-        setPref(languageKey, prefLocale, R.array.pref_locale_names);
+        setPrefSummary(prefLocale, languageKey);
     }
 
-    private void setPref(String value, ListPreference listPreference, int arrayResourceId) {
+    private void setPrefSummary(ListPreference listPreference) {
+        setPrefSummary(listPreference, listPreference.getValue());
+    }
+
+    private void setPrefSummary(ListPreference listPreference, String value) {
         int index = listPreference.findIndexOfValue(value);
-        String summary = "";
+        CharSequence summary = "";
 
         if (index >= 0) {
-            String[] names = this.getResources().getStringArray(arrayResourceId);
+            CharSequence[] names = listPreference.getEntries();
             if (index < names.length) {
                 summary = names[index];
             }

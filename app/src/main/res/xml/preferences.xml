@@ -51,25 +51,25 @@ this program. If not, see <http://www.gnu.org/licenses/>
 
         <!-- Support to change locale at runtime -->
         <ListPreference
-            android:defaultValue=""
-            android:entries="@array/pref_mode_names"
-            android:entryValues="@array/pref_mode_values"
+            android:defaultValue="3"
+            android:entries="@array/pref_mode_names_day"
+            android:entryValues="@array/pref_mode_values_day"
             android:key="mode_day"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_day_title" />
 
         <ListPreference
-            android:defaultValue=""
-            android:entries="@array/pref_mode_names"
-            android:entryValues="@array/pref_mode_values"
+            android:defaultValue="3"
+            android:entries="@array/pref_mode_names_day"
+            android:entryValues="@array/pref_mode_values_day"
             android:key="mode_date"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_date_title" />
 
         <ListPreference
-            android:defaultValue=""
+            android:defaultValue="3"
             android:entries="@array/pref_mode_names"
             android:entryValues="@array/pref_mode_values"
             android:key="mode_time"

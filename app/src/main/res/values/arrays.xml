@@ -83,4 +83,14 @@ this program. If not, see <http://www.gnu.org/licenses/>
         <item>1</item>
         <item>0</item>
     </string-array>
+    <string-array name="pref_mode_names_day" translatable="false">
+        <item>@string/settings_mode_off</item>
+        <item>@string/settings_mode_short</item>
+        <item>@string/settings_mode_long</item>
+    </string-array>
+    <string-array name="pref_mode_values_day" translatable="false">
+        <item>-1</item>
+        <item>3</item>
+        <item>1</item>
+    </string-array>
 </resources>
