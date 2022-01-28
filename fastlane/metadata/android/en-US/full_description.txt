@@ -1,8 +1,15 @@
-<p>Example Usecase: Send calendar enty as appointment confirmation Email.</p>
-<p>Usually calendar entries are shared in the human-unreadable technical format "ICS" (or "VCS") that calendar
-programs can read.</p>
+<p>Making an appointment means</p>
+<ul>
+<li>Add date, time and title of the appointment to the Android-Calendar</li>
+<li>In Android-Calendar-Detailview use Send/Share (from menu or toolbar)</li>
+<li>Select "CalEF" as share destination (to convert to human readable text)</li>
+<li>Select the final Send/Share destination (clipboard, sms, mail, ...)</li>
+</ul>
+<p>Usually calendar entries are shared in a human-unreadable technical format
+"ICS" (or "VCS") that calendar programs can read.</p>
 <p>CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.</p>
 <p>Date/Time is formatted according to current language/locale.</p>
+<p>CalEF can also process "ics" (or "vcs") files (i.e. from a calendar backup).</p>
 <h2>Requirements:</h2>
 <ul>
 <li>Android-4.4 (api 19) or later.</li>
@@ -13,4 +20,5 @@ programs can read.</p>
 <li><a href="https://f-droid.org/en/packages/ws.xsoh.etar">Etar-Calendar</a> version 1.0.29 or later (January 2022)</li>
 <li><a href="https://f-droid.org/packages/com.simplemobiletools.calendar.pro">Simple-Calendar</a> version 4.0.0 or later (May 2018)</li>
 <li>Buildin Android-Calender (Tested with android-10 on LG device)</li>
+<li>Backup <a href="https://f-droid.org/packages/org.sufficientlysecure.ical">Calendar Import-Export</a> version 2.4 or later (November 2016)</li>
 </ul>

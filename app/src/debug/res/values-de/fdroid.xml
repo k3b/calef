@@ -31,7 +31,7 @@
     <!-- This becomes .../fastlane/metadata/android/short_description.txt.
         See https://f-droid.org/docs/Build_Metadata_Reference/#Summary
         Do not exceed 80 character limit -->
-    <string name="short_description">"Markiere Android-Kalender-Eintrag und sende/teile ihn als lesbaren Text."</string>
+    <string name="short_description">"Erstelle und versende eine Verabredungs-Bestätigungs-Nachricht aus einem Android-Kalender-Eintrag."</string>
 
     <!-- This becomes .../fastlane/metadata/android/full_description.txt.
     See https://f-droid.org/docs/Build_Metadata_Reference/#Description
@@ -42,7 +42,12 @@
      and in github homepage.
      -->
     <string name="full_description"><![CDATA["
-Beispiel: Versende einen Kalendereintrag per Email als Bestätigung einer Verabredung.
+Eine Verabredung machen bedeutet
+
+* Datum, Uhrzeit und Titel im Android-Kalender eintragen .
+* In der Termin-Detailssicht Teilen/Senden aufrufen (aus Menü oder Toolbar)
+* "CalEF" auswählen (um aus dem Termin einen Text zu erstellen)
+* Das endgültige Ziel auswählen (Zwischenablage, Sms, EMail, ...)
 
 Normalerweise werden Kalender-Einträge in einem technischen Format
 gesendet/geteilt ("ICS" oder "VCS") das ein Kalenderprogramm interpretieren kann für einen Menschen aber
@@ -51,6 +56,8 @@ unverständlich ist.
 CalEF empfängt das technische Format wandelt es um und sendet den erzeugten lesbaren text weiter.
 
 Datum und Uhrzeit werden Land/Sprach-abhängig aufbereitet.
+
+CalEF kann auch "ics" (or "vcs") Dateien aufbereiten. (zB aus einer Kalender-Datensicherung).
 
 ## Voraussetzungen:
 
@@ -62,6 +69,7 @@ Datum und Uhrzeit werden Land/Sprach-abhängig aufbereitet.
 * [Etar-Calendar](https://f-droid.org/en/packages/ws.xsoh.etar) version 1.0.29 or later (January 2022)
 * [Simple-Calendar](https://f-droid.org/packages/com.simplemobiletools.calendar.pro) version 4.0.0 or later (May 2018)
 * Buildin Android-Calender (Tested with android-10 on LG device)
+* Datensicherung [Calendar Import-Export](https://f-droid.org/packages/org.sufficientlysecure.ical) version 2.4 or later (November 2016)
 
 "]]></string>
 </resources>

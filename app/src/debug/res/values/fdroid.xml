@@ -31,7 +31,7 @@
     <!-- This becomes .../fastlane/metadata/android/short_description.txt.
         See https://f-droid.org/docs/Build_Metadata_Reference/#Summary
         Do not exceed 80 character limit -->
-    <string name="short_description">"Select an entry in Android-Calendar and send/share it as human readable text."</string>
+    <string name="short_description">"Create and send Appointment-Confirmation-Message from Android-Calendar-Entry."</string>
 
     <!-- This becomes .../fastlane/metadata/android/full_description.txt.
     See https://f-droid.org/docs/Build_Metadata_Reference/#Description
@@ -42,14 +42,21 @@
      and in github homepage.
      -->
     <string name="full_description"><![CDATA["
-Example Usecase: Send calendar enty as appointment confirmation Email.
+Making an appointment means
 
-Usually calendar entries are shared in the human-unreadable technical format "ICS" (or "VCS") that calendar
-programs can read.
+* Add date, time and title of the appointment to the Android-Calendar
+* In Android-Calendar-Detailview use Send/Share (from menu or toolbar)
+* Select "CalEF" as share destination (to convert to human readable text)
+* Select the final Send/Share destination (clipboard, sms, mail, ...)
+
+Usually calendar entries are shared in a human-unreadable technical format
+"ICS" (or "VCS") that calendar programs can read.
 
 CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.
 
 Date/Time is formatted according to current language/locale.
+
+CalEF can also process "ics" (or "vcs") files (i.e. from a calendar backup).
 
 ## Requirements:
 
@@ -61,7 +68,7 @@ Date/Time is formatted according to current language/locale.
 * [Etar-Calendar](https://f-droid.org/en/packages/ws.xsoh.etar) version 1.0.29 or later (January 2022)
 * [Simple-Calendar](https://f-droid.org/packages/com.simplemobiletools.calendar.pro) version 4.0.0 or later (May 2018)
 * Buildin Android-Calender (Tested with android-10 on LG device)
-
+* Backup [Calendar Import-Export](https://f-droid.org/packages/org.sufficientlysecure.ical) version 2.4 or later (November 2016)
 
 "]]></string>
 </resources>

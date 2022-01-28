@@ -1,1 +1,1 @@
-Select an entry in Android-Calendar and send/share it as human readable text.
+Create and send Appointment-Confirmation-Message from Android-Calendar-Entry.

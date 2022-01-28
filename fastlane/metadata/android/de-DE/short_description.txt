@@ -1,1 +1,1 @@
-Markiere Android-Kalender-Eintrag und sende/teile ihn als lesbaren Text.
+Erstelle und versende eine Verabredungsbestätigungsnachricht aus einem Android-Kalender-Eintrag.

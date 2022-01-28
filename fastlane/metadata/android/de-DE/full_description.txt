@@ -1,9 +1,16 @@
-<p>Beispiel: Versende einen Kalendereintrag per Email als Bestätigung einer Verabredung.</p>
+<p>Eine Verabredung machen bedeutet</p>
+<ul>
+<li>Datum, Uhrzeit und Titel im Android-Kalender eintragen .</li>
+<li>In der Termin-Detailssicht Teilen/Senden aufrufen (aus Menü oder Toolbar)</li>
+<li>"CalEF" auswählen (um aus dem Termin einen Text zu erstellen)</li>
+<li>Das endgültige Ziel auswählen (Zwischenablage, Sms, EMail, ...)</li>
+</ul>
 <p>Normalerweise werden Kalender-Einträge in einem technischen Format
 gesendet/geteilt ("ICS" oder "VCS") das ein Kalenderprogramm interpretieren kann für einen Menschen aber
 unverständlich ist.</p>
 <p>CalEF empfängt das technische Format wandelt es um und sendet den erzeugten lesbaren text weiter.</p>
 <p>Datum und Uhrzeit werden Land/Sprach-abhängig aufbereitet.</p>
+<p>CalEF kann auch "ics" (or "vcs") Dateien aufbereiten. (zB aus einer Kalender-Datensicherung).</p>
 <h2>Voraussetzungen:</h2>
 <ul>
 <li>Android-4.0 (api 14) oder neuer.</li>
@@ -14,4 +21,5 @@ unverständlich ist.</p>
 <li><a href="https://f-droid.org/en/packages/ws.xsoh.etar">Etar-Calendar</a> version 1.0.29 or later (January 2022)</li>
 <li><a href="https://f-droid.org/packages/com.simplemobiletools.calendar.pro">Simple-Calendar</a> version 4.0.0 or later (May 2018)</li>
 <li>Buildin Android-Calender (Tested with android-10 on LG device)</li>
+<li>Datensicherung <a href="https://f-droid.org/packages/org.sufficientlysecure.ical">Calendar Import-Export</a> version 2.4 or later (November 2016)</li>
 </ul>

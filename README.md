@@ -1,10 +1,15 @@
 # ![](https://github.com/k3b/calef/raw/master/app/src/main/res/drawable-xxxhdpi/calef.png) CalEF (Calendar Entry Formatter)
 
-Select an entry in Android-Calendar and send/share the entry's content as human readable text.
+Create and send Appointment-Confirmation-Message from Android-Calendar-Entry.
 
 ![](https://github.com/k3b/calef/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/CalEF-Schema.png)
 
-Example Usecase: Send calendar enty as appointment confirmation Email.
+Making an appointment means
+
+* Add date, time and title of the appointment to the Android-Calendar
+* In Android-Calendar-Detailview use Send/Share (from menu or toolbar)
+* Select "CalEF" as share destination (to convert to human readable text)
+* Select the final Send/Share destination (clipboard, sms, mail, ...)
 
 Usually calendar entries are shared in human-unreadable technical format "ICS" (or "VCS") that
 calendar programs can read.
@@ -32,6 +37,8 @@ Date/Time is formatted according to current language/locale.
 * [Simple-Calendar](https://github.com/SimpleMobileTools/Simple-Calendar/) version 4.0.0 or later (
   May 2018)
 * Buildin Android-Calender (Tested with android-10 on LG device)
+* Backup [Calendar Import-Export](https://f-droid.org/packages/org.sufficientlysecure.ical) version
+  2.4 or later (November 2016)
 
 ## Technical details
 
