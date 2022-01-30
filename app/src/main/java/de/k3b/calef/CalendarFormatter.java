@@ -56,8 +56,21 @@ public class CalendarFormatter {
      * SimpleDateFormat that is used if hh:mm is not 00:00
      */
     private final DateFormat formatDateTime;
+    /**
+     * SimpleDateFormat that is used if hh:mm is 00:00
+     */
+    private final DateFormat formatDateWithoutTime;
+
+    private final String messagePrefix;
+    private final boolean addDetails;
+
     private static final Pattern quotedPritable = Pattern.compile(".*=[0-9a-fA-F]{2}.*");
     private static final QuotedPrintableCodec decoder = new QuotedPrintableCodec();
+
+    /**
+     * used for debugging to differentiate which CalendarFormatter instance is used
+     */
+    private int debugId = nextDebugId++;
 
     static {
         // prevent online download of timezones to translate events from utc to local time
@@ -71,28 +84,24 @@ public class CalendarFormatter {
         setHintEnabled(KEY_NOTES_COMPATIBILITY, true);
     }
 
-    /**
-     * SimpleDateFormat that is used if hh:mm is 00:00
-     */
-    private final DateFormat formatDateWithoutTime;
-    /**
-     * used for debugging to differentiate which CalendarFormatter instance is used
-     */
-    private int debugId = nextDebugId++;
-
     public CalendarFormatter() {
-        this(Locale.getDefault(), STYLE.MEDIUM, STYLE.SHORT, STYLE.SHORT);
+        this(Locale.getDefault(), STYLE.MEDIUM, STYLE.SHORT, STYLE.SHORT, null, true);
     }
 
-    public CalendarFormatter(Locale loc, int dayStyle, int dateStyle, int timeStyle) {
+    public CalendarFormatter(Locale loc, int dayStyle, int dateStyle, int timeStyle,
+                             String messagePrefix, boolean addDetails) {
         this(getDateFormat(nextDebugId + 1, loc, dayStyle, dateStyle, timeStyle),
-                getDateFormat(nextDebugId + 1, loc, dayStyle, dateStyle, STYLE.OFF));
+                getDateFormat(nextDebugId + 1, loc, dayStyle, dateStyle, STYLE.OFF),
+                messagePrefix, addDetails);
     }
 
-    public CalendarFormatter(DateFormat formatDateTime, DateFormat formatDateWithoutTime) {
+    public CalendarFormatter(DateFormat formatDateTime, DateFormat formatDateWithoutTime,
+                             String messagePrefix, boolean addDetails) {
         this.debugId++;
         this.formatDateTime = formatDateTime;
         this.formatDateWithoutTime = formatDateWithoutTime;
+        this.messagePrefix = messagePrefix;
+        this.addDetails = addDetails;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -158,6 +167,9 @@ public class CalendarFormatter {
     }
 
     public StringBuilder add(StringBuilder result, Date dateTime, String summary, String description) {
+        if (messagePrefix != null) {
+            result.append(messagePrefix).append("\n");
+        }
         if (dateTime != null) {
             result.append(getFormat(dateTime)).append(" ");
         }
@@ -165,12 +177,13 @@ public class CalendarFormatter {
             result.append(summary);
         }
 
-        if (description != null) {
+        if (addDetails && description != null) {
             result.append("\n").append(description);
         }
         if (debugEnabled) {
             LOGGER.info("add#{} => {}", debugId, result);
         }
+        result.append("\n");
         return result;
     }
 

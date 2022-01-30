@@ -20,65 +20,100 @@ this program. If not, see <http://www.gnu.org/licenses/>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:icon="@drawable/calef"
     android:key="preferences">
+    <!--
+        Language [English US 🇺🇸__]v
+        Example  📅Do. 28.10.21 18:40
+
+        Day     [short__________]v
+        Date    [short__________]v
+        Time    [short__________]v
+
+        Message [full___________]v
+
+        Message prefix
+          I have added this to my calendar:
+
+        Last used Calendar Event
+          I have added this to my calendar:
+          📅Fr. 24.12.21 18:40
+          Meeting with Santa
+
+        Send/share last
+
+        [X] DebugEnabled
+
+     -->
+
     <PreferenceCategory
         android:key="first_category"
         android:title="@string/pref_settings_title">
 
-        <!--
-            example 📅Do. 28.10.21 18:40
-
-            locale  [English US 🇺🇸__]v
-            day     [short__________]v
-            date    [medium_________]v
-            time    [medium_________]v
-
-            [X] DebugEnabled
-
-         -->
+        <EditTextPreference
+            android:key="mode_message_prefix"
+            android:summary="@string/settings_message_prefix_default"
+            android:title="@string/settings_message_prefix_title" />
 
         <ListPreference
-            android:defaultValue=""
-            android:entries="@array/pref_locale_names"
-            android:entryValues="@array/pref_locale_values"
-            android:key="user_locale"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:title="@string/settings_locale_title" />
-
-        <Preference
-            android:key="mode_example"
-            android:title="@string/settings_mode_example_title" />
-
-        <!-- Support to change locale at runtime -->
-        <ListPreference
+            android:key="mode_day"
             android:defaultValue="3"
             android:entries="@array/pref_mode_names_day"
             android:entryValues="@array/pref_mode_values_day"
-            android:key="mode_day"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_day_title" />
 
+        <!-- Support to change locale at runtime -->
         <ListPreference
+            android:key="mode_date"
             android:defaultValue="3"
             android:entries="@array/pref_mode_names_day"
             android:entryValues="@array/pref_mode_values_day"
-            android:key="mode_date"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_date_title" />
 
         <ListPreference
+            android:key="mode_time"
             android:defaultValue="3"
             android:entries="@array/pref_mode_names"
             android:entryValues="@array/pref_mode_values"
-            android:key="mode_time"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_time_title" />
 
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_mode_names_message"
+            android:entryValues="@array/pref_mode_values_message"
+            android:key="mode_message"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/settings_mode_message_title" />
+
+        <ListPreference
+            android:key="user_locale"
+            android:defaultValue=""
+            android:entries="@array/pref_locale_names"
+            android:entryValues="@array/pref_locale_values"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/settings_locale_title" />
+
+        <Preference
+            android:enabled="false"
+            android:key="mode_example"
+            android:title="@string/settings_mode_example_title" />
+        <Preference
+            android:enabled="false"
+            android:key="mode_last_example"
+            android:title="@string/settings_message_last_used" />
+
+        <Preference
+            android:key="mode_message_resend"
+            android:title="@string/settings_command_send_last" />
+
     </PreferenceCategory>
-    <PreferenceCategory android:key="second_category">
+    <PreferenceCategory android:key="third_category">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="isDebugEnabled"

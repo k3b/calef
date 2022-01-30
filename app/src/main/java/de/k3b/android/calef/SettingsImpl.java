@@ -23,6 +23,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.model.Calendar;
+
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Locale;
 
 import de.k3b.android.Global;
@@ -35,6 +40,10 @@ public class SettingsImpl {
     public static final String PREF_MODE_DAY = "mode_day";
     public static final String PREF_MODE_DATE = "mode_date";
     public static final String PREF_MODE_TIME = "mode_time";
+
+    public static final String PREF_MODE_MESSAGE = "mode_message";
+    public static final String PREF_MESSAGE_PREFIX = "mode_message_prefix";
+    private static final String LAST_CALFILE_NAME = "example.ics";
 
     private SettingsImpl() {
     }
@@ -50,11 +59,18 @@ public class SettingsImpl {
                 "isDebugEnabled", Global.debugEnabled);
         CalendarFormatter.debugEnabled = Global.debugEnabled;
 
+        int messageMode = getPrefValue(prefs, SettingsImpl.PREF_MODE_MESSAGE, CalendarFormatter.STYLE.LONG);
+        boolean addDetails = messageMode == CalendarFormatter.STYLE.FULL || messageMode == CalendarFormatter.STYLE.LONG;
+        String messagePrefix = null;
+        if (messageMode == CalendarFormatter.STYLE.FULL || messageMode == CalendarFormatter.STYLE.MEDIUM) {
+            messagePrefix = SettingsImpl.getMessagePrefix(context, prefs);
+        }
+
         CalendarFormatter formatter = new CalendarFormatter(
                 Locale.getDefault(),
                 getPrefValue(prefs, SettingsImpl.PREF_MODE_DAY, CalendarFormatter.STYLE.MEDIUM),
                 getPrefValue(prefs, SettingsImpl.PREF_MODE_DATE, CalendarFormatter.STYLE.SHORT),
-                getPrefValue(prefs, SettingsImpl.PREF_MODE_TIME, CalendarFormatter.STYLE.SHORT));
+                getPrefValue(prefs, SettingsImpl.PREF_MODE_TIME, CalendarFormatter.STYLE.SHORT), messagePrefix, addDetails);
 
         return formatter;
     }
@@ -107,6 +123,54 @@ public class SettingsImpl {
             setValue(prefs, key, notFoundValue);
         }
         return result;
+    }
+
+    public static Calendar getLast(Context context) {
+        try (InputStream in = context.openFileInput(LAST_CALFILE_NAME)) {
+            return new CalendarBuilder().build(in);
+        } catch (Throwable ignore) {
+            try (InputStream in = context.getAssets().open(LAST_CALFILE_NAME)) {
+                return new CalendarBuilder().build(in);
+            } catch (Throwable ignore2) {
+            }
+        }
+        return null;
+    }
+
+    public static void putLast(Context context, Calendar cal) {
+        context.deleteFile(LAST_CALFILE_NAME);
+        if (cal != null) {
+            try (PrintStream out = new PrintStream(context.openFileOutput(LAST_CALFILE_NAME, Context.MODE_PRIVATE))) {
+                out.println(cal.toString());
+            } catch (Throwable ignore) {
+            }
+        }
+    }
+
+    public static String getMessagePrefix(Context context, final SharedPreferences prefs) {
+        String result = getPrefValue(prefs, PREF_MESSAGE_PREFIX, null);
+        if (result == null) {
+            result = getDefaultPrefix(context);
+        }
+        return result;
+    }
+
+    public static String setMessagePrefix(Context context, final SharedPreferences prefs, String value) {
+        if (value != null && getDefaultPrefix(context).compareToIgnoreCase(value) == 0) {
+            value = null;
+        }
+
+        if (value == null || value.isEmpty()) {
+            prefs.edit().remove(PREF_MESSAGE_PREFIX).apply();
+            value = null;
+        } else {
+            prefs.edit().putString(PREF_MESSAGE_PREFIX, value).apply();
+        }
+        return value;
+    }
+
+    private static String getDefaultPrefix(Context context) {
+        return context.getString(R.string.settings_message_prefix_default);
     }
 
 }

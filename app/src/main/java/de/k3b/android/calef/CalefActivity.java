@@ -19,6 +19,7 @@
 
 package de.k3b.android.calef;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,11 +59,36 @@ public class CalefActivity extends LocalizedActivity {
         }
     }
 
+    public static void sendResult(Activity context, Calendar calendar) {
+        CalendarFormatter formatter = SettingsImpl.init(context);
+        String textLang = formatter.toString(calendar);
+
+        if (Global.debugEnabled) {
+            logger.info("Result {}", textLang);
+        }
+
+        Intent startIntent = new Intent(Intent.ACTION_SEND);
+        startIntent.setType("text/plain");
+
+        // email subject only first line
+        String textKurz = textLang.split("\n\r")[0];
+        startIntent.putExtra(Intent.EXTRA_SUBJECT, textKurz);
+        startIntent.putExtra(Intent.EXTRA_TEXT, textLang);
+        startIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        context.startActivityForResult(Intent.createChooser(startIntent, context.getString(R.string.share_using)), REQUEST_ID_SHARE_RESULT);
+    }
+
+    public static void toast(Activity context, String message) {
+        Toast.makeText(context,
+                context.getString(R.string.send_result_toast_message, message),
+                Toast.LENGTH_LONG).show();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         LocalizedActivity.fixLocale(this);    // Support to change locale at runtime
         super.onCreate(savedInstanceState);
-        CalendarFormatter formatter = SettingsImpl.init(this);
         Intent intentIn = getIntent();
         if (intentIn != null) {
             Uri uri = intentIn.getParcelableExtra(Intent.EXTRA_STREAM); // used by send
@@ -80,25 +106,11 @@ public class CalefActivity extends LocalizedActivity {
                     in = getContentResolver().openInputStream(uri);
                     CalendarBuilder builder = new CalendarBuilder();
                     Calendar calendar = builder.build(in);
-                    String textLang = formatter.toString(calendar);
-
-                    if (Global.debugEnabled) {
-                        logger.info("Result {}", textLang);
-                    }
-
-                    Intent startIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    startIntent.setType("text/plain");
-
-                    // email subject only first line
-                    String textKurz = textLang.split("\n\r")[0];
-                    startIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, textKurz);
-                    startIntent.putExtra(android.content.Intent.EXTRA_TEXT, textLang);
-                    startIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                    startActivityForResult(Intent.createChooser(startIntent, getString(R.string.share_using)), REQUEST_ID_SHARE_RESULT);
+                    sendResult(this, calendar);
+                    SettingsImpl.putLast(this, calendar);
                 } catch (Exception ex) {
                     logger.warn("Error in onCreate-startActivityForResult " + uri, ex);
-                    toast(getString(R.string.error_cannot_convert_or_resend, uri, ex.getMessage()));
+                    toast(this, getString(R.string.error_cannot_convert_or_resend, uri, ex.getMessage()));
                     setResult(RESULT_CANCELED);
                     finish();
                 } finally {
@@ -121,15 +133,9 @@ public class CalefActivity extends LocalizedActivity {
             if (data != null) {
                 message += data.getData();
             }
-            toast(message);
+            toast(this, message);
             finish();
         }
 
-    }
-
-    private void toast(String message) {
-        Toast.makeText(this,
-                getString(R.string.send_result_toast_message, message),
-                Toast.LENGTH_LONG).show();
     }
 }

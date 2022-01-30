@@ -20,6 +20,7 @@ package de.k3b.android.calef;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -40,11 +41,22 @@ import de.k3b.calef.CalendarFormatter;
  */
 public class SettingsActivity extends PreferenceActivity {
     private SharedPreferences prefsInstance = null;
-    private ListPreference prefLocale;  // Support to change locale at runtime
-    private ListPreference prefDay;
-    private ListPreference prefDate;
-    private ListPreference prefTime;
+
+    // pref elements in display order
+    private ListPreference prefListLocale;  // Support to change locale at runtime
     private Preference prefExample;
+    private ListPreference prefListDay;
+    private ListPreference prefListDate;
+    private ListPreference prefListTime;
+
+    private ListPreference prefListMessage;
+    private EditTextPreference prefMessagePrefix;
+    private Preference prefLastExample;
+    private Preference prefMessageResend;
+
+    /*
+        prefMessageResend = <Preference android:key="mode_message_resend"
+    * */
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -57,13 +69,32 @@ public class SettingsActivity extends PreferenceActivity {
         prefsInstance = PreferenceManager
                 .getDefaultSharedPreferences(this);
 
-        prefLocale = (ListPreference) findPreference(Global.PREF_KEY_USER_LOCALE);
-        prefDay = (ListPreference) findPreference(SettingsImpl.PREF_MODE_DAY);
-        prefDate = (ListPreference) findPreference(SettingsImpl.PREF_MODE_DATE);
-        prefTime = (ListPreference) findPreference(SettingsImpl.PREF_MODE_TIME);
-        prefExample = findPreference("mode_example");
+        prefListLocale = (ListPreference) findPreference(Global.PREF_KEY_USER_LOCALE);
+        prefListDay = (ListPreference) findPreference(SettingsImpl.PREF_MODE_DAY);
+        prefListDate = (ListPreference) findPreference(SettingsImpl.PREF_MODE_DATE);
+        prefListTime = (ListPreference) findPreference(SettingsImpl.PREF_MODE_TIME);
+        prefListMessage = (ListPreference) findPreference(SettingsImpl.PREF_MODE_MESSAGE);
 
-        prefLocale.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        prefExample = findPreference("mode_example");
+        prefLastExample = findPreference("mode_last_example");
+        prefMessagePrefix = (EditTextPreference) findPreference("mode_message_prefix");
+
+        prefMessageResend = findPreference("mode_message_resend");
+        prefMessageResend.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    CalefActivity.sendResult(SettingsActivity.this, SettingsImpl.getLast(SettingsActivity.this));
+                } catch (Exception ex) {
+                    CalefActivity.toast(SettingsActivity.this, getString(R.string.error_cannot_convert_or_resend, "", ex.getMessage()));
+
+                }
+                return false;
+            }
+        });
+
+
+        prefListLocale.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 setLanguage((String) newValue);
@@ -78,47 +109,75 @@ public class SettingsActivity extends PreferenceActivity {
                 if (Global.debugEnabled) {
                     Log.i(Global.LOG_CONTEXT, "Update from " + preference.getTitle());
                 }
-                updateSummary((ListPreference) preference, (String) newValue);
+                updateSummary(preference, (String) newValue);
                 return true; // change is allowed
             }
         };
 
-        prefDay.setOnPreferenceChangeListener(onPreferenceChangeListener);
-        prefDate.setOnPreferenceChangeListener(onPreferenceChangeListener);
-        prefTime.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefListDay.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefListDate.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefListTime.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefListMessage.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefMessagePrefix.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                prefMessagePrefix.setText((String) newValue);
+                SettingsImpl.setMessagePrefix(SettingsActivity.this, prefsInstance, (String) newValue);
+                showValues();
+                return false; // value is already set
+            }
+        });
         showValues();
     }
 
     private void showValues() {
-        setLanguage(prefLocale.getValue());
-        setPrefSummary(prefDay);
-        setPrefSummary(prefDate);
-        setPrefSummary(prefTime);
+        setLanguage(prefListLocale.getValue());
+        setPrefSummary(prefListDay);
+        setPrefSummary(prefListDate);
+        setPrefSummary(prefListTime);
+        setPrefSummary(prefListMessage);
+        prefMessagePrefix.setSummary(SettingsImpl.getMessagePrefix(this, prefsInstance));
+
         updateSummary(null, null);
     }
 
     // This is used to show the status of some preference in the description
-    private void updateSummary(ListPreference preference, String newValue) {
+    private void updateSummary(Preference preference, String newValue) {
         // setLanguage(languageKey);
-        if (preference != null) {
-            preference.setValue(newValue);
-            setPrefSummary(preference, newValue);
+        if (preference instanceof ListPreference) {
+            ListPreference listPreference = (ListPreference) preference;
+            listPreference.setValue(newValue);
+            setPrefSummary(listPreference, newValue);
         }
+        if (preference instanceof EditTextPreference) {
+            EditTextPreference editTextPreference = (EditTextPreference) preference;
+            editTextPreference.setSummary(newValue);
+        }
+
+        int messageMode = getInt(prefListMessage, CalendarFormatter.STYLE.LONG);
+        boolean addDetails = messageMode == CalendarFormatter.STYLE.FULL || messageMode == CalendarFormatter.STYLE.LONG;
+        boolean showMessagePrefix = messageMode == CalendarFormatter.STYLE.FULL || messageMode == CalendarFormatter.STYLE.MEDIUM;
+        String messagePrefix = showMessagePrefix ? SettingsImpl.getMessagePrefix(this, this.prefsInstance) : null;
 
         CalendarFormatter formatter = new CalendarFormatter(
                 Locale.getDefault(),
-                getInt(prefDay, CalendarFormatter.STYLE.SHORT),
-                getInt(prefDate, CalendarFormatter.STYLE.SHORT),
-                getInt(prefTime, CalendarFormatter.STYLE.SHORT));
-        if (Global.debugEnabled) {
-            Log.i(Global.LOG_CONTEXT, "updateSummary " + Locale.getDefault() +
-                    ", " + getInt(prefDay, CalendarFormatter.STYLE.SHORT) +
-                    ", " + getInt(prefDate, CalendarFormatter.STYLE.SHORT) +
-                    ", " + getInt(prefTime, CalendarFormatter.STYLE.SHORT) +
-                    "");
-        }
+                getInt(prefListDay, CalendarFormatter.STYLE.SHORT),
+                getInt(prefListDate, CalendarFormatter.STYLE.SHORT),
+                getInt(prefListTime, CalendarFormatter.STYLE.SHORT),
+                messagePrefix, addDetails);
 
         prefExample.setSummary(formatter.add(new StringBuilder(), new Date(), null, null));
+
+        prefLastExample.setSummary(formatter.toString(SettingsImpl.getLast(this)));
+
+        if (Global.debugEnabled) {
+            Log.i(Global.LOG_CONTEXT, "updateSummary " + Locale.getDefault() +
+                    ", day=" + getInt(prefListDay, CalendarFormatter.STYLE.SHORT) +
+                    ", date=" + getInt(prefListDate, CalendarFormatter.STYLE.SHORT) +
+                    ", time=" + getInt(prefListTime, CalendarFormatter.STYLE.SHORT) +
+                    ", message=" + messageMode +
+                    "");
+        }
     }
 
     private int getInt(ListPreference prefDay, int defaultValue) {
@@ -134,7 +193,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     // #6: Support to change locale at runtime
     private void setLanguage(String languageKey) {
-        setPrefSummary(prefLocale, languageKey);
+        setPrefSummary(prefListLocale, languageKey);
     }
 
     private void setPrefSummary(ListPreference listPreference) {

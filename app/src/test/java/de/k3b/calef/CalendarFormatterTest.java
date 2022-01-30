@@ -43,7 +43,7 @@ public class CalendarFormatterTest {
     @Test
     public void add_germanyShort_ok() {
         CalendarFormatter.debugEnabled = true;
-        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.GERMANY, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
+        CalendarFormatter calendarFormatter = createCalendarFormatter(Locale.GERMANY);
 
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224,
@@ -55,7 +55,7 @@ public class CalendarFormatterTest {
     @Test
     public void add_usShort_ok() {
         CalendarFormatter.debugEnabled = true;
-        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.US, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
+        CalendarFormatter calendarFormatter = createCalendarFormatter(Locale.US);
 
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224,
@@ -67,7 +67,7 @@ public class CalendarFormatterTest {
     @Test
     public void add_usShortWithoutTime_ok() {
         CalendarFormatter.debugEnabled = true;
-        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.US, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
+        CalendarFormatter calendarFormatter = createCalendarFormatter(Locale.US);
 
         StringBuilder result = new StringBuilder();
         calendarFormatter.add(result, DATE_TIME_20211224_WITHOUT_TIME,
@@ -94,11 +94,11 @@ public class CalendarFormatterTest {
                 "END:VCALENDAR\n";
         CalendarFormatter.debugEnabled = true;
 
-        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.GERMANY, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
+        CalendarFormatter calendarFormatter = createCalendarFormatter(Locale.GERMANY);
 
         String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
-        ;
+
         assertEquals("📅Do 28.10.21 18:40 18:50 Bus → Bahnhof\n" +
                 "18:53 Zuhause\n" +
                 " 🚶 Fußweg 155 m für 2 min\n" +
@@ -113,7 +113,7 @@ public class CalendarFormatterTest {
     // android "📅Fr. 24.12.21 12:34..."
     // linux "📅Fr 24.12.21 12:34..."
     private String fix(String actual) {
-        return actual.replace(". ", " ").replace("  ", " ");
+        return actual.replace(". ", " ").replace("  ", " ").trim();
     }
 
     @Test
@@ -133,13 +133,17 @@ public class CalendarFormatterTest {
                 "END:VCALENDAR\n";
         CalendarFormatter.debugEnabled = true;
 
-        CalendarFormatter calendarFormatter = new CalendarFormatter(Locale.GERMANY, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT);
+        CalendarFormatter calendarFormatter = createCalendarFormatter(Locale.GERMANY);
 
         String actual = calendarFormatter.toString(new CalendarBuilder()
                 .build(new StringReader(myVCalendarString)));
         assertEquals("📅Do 28.10.21 18:40 Test\n" +
                 "🚌 Hallo Welt\r\n" +
                 "(Achtung: Zeiten können gemeldete Verspätungen enthalten)", fix(actual));
+    }
+
+    private CalendarFormatter createCalendarFormatter(Locale locale) {
+        return new CalendarFormatter(locale, STYLE.SHORT, STYLE.SHORT, STYLE.SHORT, null, true);
     }
 
     @Test
