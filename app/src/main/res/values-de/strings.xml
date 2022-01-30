@@ -17,16 +17,22 @@ You should have received a copy of the GNU General Public License along with
 this program. If not, see <http://www.gnu.org/licenses/>
 -->
 <resources>
+    <!-- Let app name "CalEF" as it is and tranlate "Calendar Entry Formatter" (if possible use the letters C E F ) -->
     <string name="app_name">CalEF (Calendar Eintrag Formatierer)</string>
     <string name="pref_settings_title">Einstellungen</string>
     <string name="settings_locale_title">Sprache</string>
     <string name="settings_locale_os_language">(Sprache des Gerätes)</string>
-    <string name="pref_debug_title">Debug Modus</string>
-    <string name="pref_debug_summary">Debug-Nachrichten zu LogCat hinzugefügt</string>
     <string name="settings_mode_day_title">Tag Formatierung</string>
     <string name="settings_mode_date_title">Datum Formatierung</string>
     <string name="settings_mode_time_title">Zeit Formatierung</string>
     <string name="settings_mode_example_title">Beispiel Tag/Datum/Uhrzeit</string>
+    <string name="settings_mode_message_title">Meldung</string>
+    <string name="settings_message_last_used">Zuletzt genutztes Kalenderereignis</string>
+    <!-- default content value will be content of settings_message_prefix_default -->
+    <string name="settings_message_prefix_title">Meldung Vorspann</string>
+    <!-- Default value to be added in Front of the result message if mode_message is medium or full -->
+    <string name="settings_message_prefix_default">Ich habe folgendes in meinen Kalender eingetragen:</string>
+    <string name="settings_command_send_last">Sende/Teile letztes</string>
     <!-- values for settings_mode_XXX_title -->
     <string name="settings_mode_off">deaktiviert</string>
     <string name="settings_mode_short">kurz</string>
@@ -34,6 +40,9 @@ this program. If not, see <http://www.gnu.org/licenses/>
     <string name="settings_mode_long">lang</string>
     <string name="settings_mode_full">vollständig</string>
     <string name="share_using">Sende Kalender als Text an</string>
+    <string name="pref_debug_title">Debug Modus</string>
+    <string name="pref_debug_summary">Debug-Nachrichten zu LogCat hinzugefügt</string>
+    <!-- result messsages: -->
     <string name="send_result_toast_message">Per CalEF gesendet (%s)</string>
     <!-- %1$s = source ICS-URI ; %2$s = exception-message -->
     <string name="error_cannot_convert_or_resend">kann %1$s nicht senden %2$s</string>
