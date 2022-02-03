@@ -22,9 +22,10 @@ android {
         minSdkVersion 14
         targetSdkVersion 30
 
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.1.0"
 
+        // 1.1.0 (3) added optional message prefix ("I have added this to my calendar")
         // 1.0.1 (2) fixed translation issues
         // 1.0.0 (1) initial Release translated in en and de
     }
