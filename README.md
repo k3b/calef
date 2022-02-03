@@ -2,7 +2,7 @@
 
 Create and send Appointment-Confirmation-Message from Android-Calendar-Entry.
 
-![](https://github.com/k3b/calef/raw/app/src/debug/res/drawable/calef_schema.png)
+![](https://github.com/k3b/calef/raw/master/app/src/debug/res/drawable/calef_schema.png)
 
 Making an appointment means
 
@@ -45,7 +45,7 @@ Date/Time is formatted according to language/locale. Examples:
 
 ---
 
-![](https://github.com/k3b/calef/raw/master/fastlane/metadata/android/en-US/images/phoneScreenshots/CalEF-Settings.png)
+![](https://raw.githubusercontent.com/k3b/calef/master/fastlane/metadata/android/en-US/images/phoneScreenshots/CalEF-Settings.png)
 
 Use the settings page to choose language, day, date, time and message format. Under "Example
 Day/Date/Time" and "Last used Calendar Event" you can see what the result would be.
