@@ -54,10 +54,6 @@ public class SettingsActivity extends PreferenceActivity {
     private Preference prefLastExample;
     private Preference prefMessageResend;
 
-    /*
-        prefMessageResend = <Preference android:key="mode_message_resend"
-    * */
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         LocalizedActivity.fixLocale(this);    // #6: Support to change locale at runtime
@@ -66,8 +62,7 @@ public class SettingsActivity extends PreferenceActivity {
         setResult(RESULT_CANCELED, null);
         this.addPreferencesFromResource(R.xml.preferences);
 
-        prefsInstance = PreferenceManager
-                .getDefaultSharedPreferences(this);
+        prefsInstance = PreferenceManager.getDefaultSharedPreferences(this);
 
         prefListLocale = (ListPreference) findPreference(Global.PREF_KEY_USER_LOCALE);
         prefListDay = (ListPreference) findPreference(SettingsImpl.PREF_MODE_DAY);
@@ -80,6 +75,22 @@ public class SettingsActivity extends PreferenceActivity {
         prefMessagePrefix = (EditTextPreference) findPreference("mode_message_prefix");
 
         prefMessageResend = findPreference("mode_message_resend");
+
+        Preference.OnPreferenceChangeListener onPreferenceChangeListener = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (Global.debugEnabled) {
+                    Log.i(Global.LOG_CONTEXT, "Update from " + preference.getTitle());
+                }
+                updateSummary(preference, (String) newValue);
+                return true; // change is allowed
+            }
+        };
+        prefListDay.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefListDate.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefListTime.setOnPreferenceChangeListener(onPreferenceChangeListener);
+        prefListMessage.setOnPreferenceChangeListener(onPreferenceChangeListener);
+
         prefMessageResend.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -93,7 +104,6 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-
         prefListLocale.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -103,21 +113,6 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        Preference.OnPreferenceChangeListener onPreferenceChangeListener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if (Global.debugEnabled) {
-                    Log.i(Global.LOG_CONTEXT, "Update from " + preference.getTitle());
-                }
-                updateSummary(preference, (String) newValue);
-                return true; // change is allowed
-            }
-        };
-
-        prefListDay.setOnPreferenceChangeListener(onPreferenceChangeListener);
-        prefListDate.setOnPreferenceChangeListener(onPreferenceChangeListener);
-        prefListTime.setOnPreferenceChangeListener(onPreferenceChangeListener);
-        prefListMessage.setOnPreferenceChangeListener(onPreferenceChangeListener);
         prefMessagePrefix.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -127,7 +122,49 @@ public class SettingsActivity extends PreferenceActivity {
                 return false; // value is already set
             }
         });
+
+        prefExample.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                dumpExamples();
+                return false;
+            }
+        });
+
         showValues();
+    }
+
+    private void dumpExamples() {
+        Date xmas = new Date(2022 - 1900, 12 - 1, 24, 17, 20);
+        String[] names = getResources().getStringArray(R.array.pref_locale_names);
+        String[] locales = getResources().getStringArray(R.array.pref_locale_values);
+
+        StringBuilder result = new StringBuilder();
+        result.append("<table>");
+        dumpTableRow(result, "Language", "Short", "Long");
+        for (int i = 1; i < names.length; i++) {
+            dump(result, xmas, names[i], locales[i]);
+        }
+        result.append("</table>");
+        Log.i(CalefActivity.TAG, result.toString());
+    }
+
+    private void dump(StringBuilder result, Date date, String name, String localeName) {
+        // i.e. "de" for german or "pt-BR" for portogeese in brasilia
+        String[] languageParts = localeName.split("-");
+        Locale locale = (languageParts.length == 1) ? new Locale(localeName) : new Locale(languageParts[0], languageParts[1]);
+
+        CalendarFormatter formatterShort = new CalendarFormatter(locale, CalendarFormatter.STYLE.SHORT, CalendarFormatter.STYLE.SHORT, CalendarFormatter.STYLE.SHORT, "", false);
+        CalendarFormatter formatterLong = new CalendarFormatter(locale, CalendarFormatter.STYLE.LONG, CalendarFormatter.STYLE.LONG, CalendarFormatter.STYLE.FULL, "", false);
+        dumpTableRow(result, name, formatterShort.getFormat(date), formatterLong.getFormat(date));
+    }
+
+    private void dumpTableRow(StringBuilder result, String... cols) {
+        result.append("<tr>");
+        for (String col : cols) {
+            result.append("<td>").append(col).append("</td>");
+        }
+        result.append("</tr>\n");
     }
 
     private void showValues() {

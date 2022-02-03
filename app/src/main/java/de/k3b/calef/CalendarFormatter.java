@@ -167,9 +167,6 @@ public class CalendarFormatter {
     }
 
     public StringBuilder add(StringBuilder result, Date dateTime, String summary, String description) {
-        if (messagePrefix != null) {
-            result.append(messagePrefix).append("\n");
-        }
         if (dateTime != null) {
             result.append(getFormat(dateTime)).append(" ");
         }
@@ -190,7 +187,10 @@ public class CalendarFormatter {
     public String toString(Calendar calendar) {
         StringBuilder result = new StringBuilder();
         ComponentList events = calendar.getComponents(VEvent.VEVENT);
-        if (events != null) {
+        if (events != null && !events.isEmpty()) {
+            if (messagePrefix != null) {
+                result.append(messagePrefix).append("\n");
+            }
             for (Object event : events) {
                 add(result, (VEvent) event);
             }
@@ -220,7 +220,7 @@ public class CalendarFormatter {
         return null;
     }
 
-    private String getFormat(Date dateTime) {
+    public String getFormat(Date dateTime) {
         if (dateTime.getHours() == 0 && dateTime.getMinutes() == 0) {
             // suppress hours/minutes if 00:00 for localdate
             return formatDateWithoutTime.format(dateTime);

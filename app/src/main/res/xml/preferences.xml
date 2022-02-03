@@ -61,8 +61,6 @@ this program. If not, see <http://www.gnu.org/licenses/>
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_day_title" />
-
-        <!-- Support to change locale at runtime -->
         <ListPreference
             android:key="mode_date"
             android:defaultValue="3"
@@ -72,6 +70,7 @@ this program. If not, see <http://www.gnu.org/licenses/>
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_date_title" />
 
+        <!-- Support to change locale at runtime -->
         <ListPreference
             android:key="mode_time"
             android:defaultValue="3"
@@ -82,29 +81,28 @@ this program. If not, see <http://www.gnu.org/licenses/>
             android:title="@string/settings_mode_time_title" />
 
         <ListPreference
+            android:key="mode_message"
             android:defaultValue="1"
             android:entries="@array/pref_mode_names_message"
             android:entryValues="@array/pref_mode_values_message"
-            android:key="mode_message"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_message_title" />
 
         <ListPreference
-            android:key="user_locale"
             android:defaultValue=""
             android:entries="@array/pref_locale_names"
             android:entryValues="@array/pref_locale_values"
+            android:key="user_locale"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_locale_title" />
 
         <Preference
-            android:enabled="false"
             android:key="mode_example"
             android:title="@string/settings_mode_example_title" />
+
         <Preference
-            android:enabled="false"
             android:key="mode_last_example"
             android:title="@string/settings_message_last_used" />
 
@@ -115,11 +113,9 @@ this program. If not, see <http://www.gnu.org/licenses/>
     </PreferenceCategory>
     <PreferenceCategory android:key="third_category">
         <CheckBoxPreference
-            android:defaultValue="false"
             android:key="isDebugEnabled"
+            android:defaultValue="false"
             android:summary="@string/pref_debug_summary"
             android:title="@string/pref_debug_title" />
-
-
     </PreferenceCategory>
 </PreferenceScreen>

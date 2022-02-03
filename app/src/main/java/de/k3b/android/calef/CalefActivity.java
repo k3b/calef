@@ -45,7 +45,7 @@ import de.k3b.calef.CalendarFormatter;
  * Translates an ICS/VCS stream to a human readable Text.
  */
 public class CalefActivity extends LocalizedActivity {
-    private static final String TAG = "k3b.calef";
+    public static final String TAG = "k3b.calef";
     private static final Logger logger = LoggerFactory.getLogger(TAG);
     private static final int REQUEST_ID_SHARE_RESULT = 1;
 
@@ -75,6 +75,8 @@ public class CalefActivity extends LocalizedActivity {
         startIntent.putExtra(Intent.EXTRA_SUBJECT, textKurz);
         startIntent.putExtra(Intent.EXTRA_TEXT, textLang);
         startIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Toast.makeText(context, textLang, Toast.LENGTH_SHORT).show();
 
         context.startActivityForResult(Intent.createChooser(startIntent, context.getString(R.string.share_using)), REQUEST_ID_SHARE_RESULT);
     }

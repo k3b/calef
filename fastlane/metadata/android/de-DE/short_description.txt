@@ -1,1 +1,1 @@
-Erstelle und versende eine Verabredungsbestätigungsnachricht aus einem Android-Kalender-Eintrag.
+Erstelle und versende eine Verabredungs-Bestätigungs-Nachricht aus einem Android-Kalender-Eintrag.
