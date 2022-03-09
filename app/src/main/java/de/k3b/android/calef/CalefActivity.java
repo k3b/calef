@@ -87,6 +87,10 @@ public class CalefActivity extends LocalizedActivity {
                 Toast.LENGTH_LONG).show();
     }
 
+    static {
+        CalendarFormatter.init();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         LocalizedActivity.fixLocale(this);    // Support to change locale at runtime

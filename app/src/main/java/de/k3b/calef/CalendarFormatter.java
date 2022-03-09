@@ -74,6 +74,10 @@ public class CalendarFormatter {
 
     static {
         // prevent online download of timezones to translate events from utc to local time
+        init();
+    }
+
+    public static void init() {
         System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache.class.getName());
 
         // CompatibilityHints.setHintEnabled(setHintEnabled.KEY_XXXX,true) : Make as much compatible as possible
