@@ -1,2 +1,3 @@
-* reordered Fields in Settings.
-* Fixed Initialisation Error if settings was never called.
+* reordered Fields in Settings-Page.
+* Fixed crash when Settings-Page was never called.
+* Fixed german short_description: Text was longer than 80 chars

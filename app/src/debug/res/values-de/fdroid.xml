@@ -31,7 +31,7 @@
     <!-- This becomes .../fastlane/metadata/android/short_description.txt.
         See https://f-droid.org/docs/Build_Metadata_Reference/#Summary
         Do not exceed 80 character limit -->
-    <string name="short_description">"Erstelle und versende eine Verabredungs-Bestätigungs-Nachricht aus einem Android-Kalender-Eintrag."</string>
+    <string name="short_description">"Erstelle Verabredungs-Bestätigungs-Nachricht aus Android-Kalender-Eintrag."</string>
 
     <!-- This becomes .../fastlane/metadata/android/full_description.txt.
     See https://f-droid.org/docs/Build_Metadata_Reference/#Description
