@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License along with
 this program. If not, see <http://www.gnu.org/licenses/>
 -->
 
-<!--suppress DeprecatedClassUsageInspection -->
+<!--suppress ALL -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:icon="@drawable/calef"
     android:key="preferences">
@@ -50,11 +50,6 @@ this program. If not, see <http://www.gnu.org/licenses/>
         android:title="@string/pref_settings_title">
 
         <!-- Support to change locale at runtime -->
-        <EditTextPreference
-            android:key="mode_message_prefix"
-            android:summary="@string/settings_message_prefix_default"
-            android:title="@string/settings_message_prefix_title" />
-
         <ListPreference
             android:defaultValue=""
             android:entries="@array/pref_locale_names"
@@ -62,6 +57,10 @@ this program. If not, see <http://www.gnu.org/licenses/>
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="@string/settings_locale_title" />
+
+        <Preference
+            android:key="mode_example"
+            android:title="@string/settings_mode_example_title" />
 
         <ListPreference
             android:key="mode_day"
@@ -98,9 +97,10 @@ this program. If not, see <http://www.gnu.org/licenses/>
             android:positiveButtonText="@null"
             android:title="@string/settings_mode_message_title" />
 
-        <Preference
-            android:key="mode_example"
-            android:title="@string/settings_mode_example_title" />
+        <EditTextPreference
+            android:key="mode_message_prefix"
+            android:summary="@string/settings_message_prefix_default"
+            android:title="@string/settings_message_prefix_title" />
 
         <Preference
             android:key="mode_last_example"
