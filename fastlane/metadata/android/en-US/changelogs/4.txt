@@ -1,1 +1,2 @@
-* TODO
+* reordered Fields in Settings.
+* Fixed Initialisation Error if settings was never called.
