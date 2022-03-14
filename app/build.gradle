@@ -22,9 +22,10 @@ android {
         minSdkVersion 14
         targetSdkVersion 30
 
-        versionCode 4
-        versionName "1.1.1"
+        versionCode 5
+        versionName "1.1.2"
 
+        // 1.1.2 (5) Fixed Initialisation Error
         // 1.1.1 (4) reordered Settings; Fixed Initialisation Error
         // 1.1.0 (3) added optional message prefix ("I have added this to my calendar")
         // 1.0.1 (2) fixed translation issues

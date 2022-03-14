@@ -1,1 +1,3 @@
-TODO
+* reordered Fields in Settings-Page.
+* Fixed crash in Settings-Page.
+* Fixed german short_description: Text was longer than 80 chars
