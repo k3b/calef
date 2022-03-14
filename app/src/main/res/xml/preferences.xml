@@ -51,6 +51,7 @@ this program. If not, see <http://www.gnu.org/licenses/>
 
         <!-- Support to change locale at runtime -->
         <ListPreference
+            android:key="user_locale"
             android:defaultValue=""
             android:entries="@array/pref_locale_names"
             android:entryValues="@array/pref_locale_values"
