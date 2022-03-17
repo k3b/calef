@@ -56,7 +56,7 @@ Day/Date/Time" and "Last used Calendar Event" you can see what the result would 
   crowdin.com: [![Crowdin](https://badges.crowdin.net/calef/localized.svg)](https://crowdin.com/project/calef)
 * Download: [<img src="https://f-droid.org/badge/get-it-on.png"
   alt="Get it on F-Droid"
-  height="80">](https://f-droid.org/app/de.k3b.android.calef)
+  height="80">](https://f-droid.org/app/de.k3b.android.calef) ![](https://github.com/k3b/calef/raw/master/app/src/debug/res/drawable/QR_CODE_URL_Calef@fdroid.png)
 
 ## Requirements:
 
