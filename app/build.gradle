@@ -76,7 +76,11 @@ dependencies {
     // do not automatically update to 20041127.091804 which is much older that 1.16.0
     //noinspection GradleDependency
     implementation 'commons-codec:commons-codec:1.16.0'
+
+    // do not automatically update to 20030203.000129 which is much older that 2.6
+    //noinspection GradleDependency
     implementation 'commons-lang:commons-lang:2.6'
+
     testImplementation 'junit:junit:4.13.2'
 
     implementation 'org.slf4j:slf4j-api:2.0.9'
