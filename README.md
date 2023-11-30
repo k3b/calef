@@ -1,5 +1,6 @@
 # ![](https://github.com/k3b/calef/raw/master/app/src/main/res/drawable-xxxhdpi/calef.png) CalEF (Calendar Entry Formatter)
 
+## Introduction
 Create and send Appointment-Confirmation-Message from Android-Calendar-Entry.
 
 ![](https://github.com/k3b/calef/raw/master/app/src/debug/res/drawable/calef_schema.png)
@@ -16,6 +17,41 @@ calendar programs can read.
 
 CalEF receives the technical format and re-sends/re-shares it-s content as human readable text.
 
+Note: CalEF can also process "ics" (or "vcs") files (i.e. from a calendar backup).
+
+---
+
+* Translations: If you want to see the app in your language (26 App-Strings plus FDroid-App-Description) please use
+  crowdin.com: [![Crowdin](https://badges.crowdin.net/calef/localized.svg)](https://crowdin.com/project/calef)
+* Download: [<img src="https://f-droid.org/badge/get-it-on.png"
+  alt="Get it on F-Droid"
+  height="80">](https://f-droid.org/app/de.k3b.android.calef)
+* Download: ![](https://github.com/k3b/calef/raw/master/app/src/debug/res/drawable/qr_code_url_calef_fdroid.png)
+
+## Requirements:
+
+* Android-4.0 (api 14) or later
+* Required Permissions:
+  * none
+
+## Compatible android apps
+
+* [Etar-Calendar](https://github.com/Etar-Group/Etar-Calendar/)  version 1.0.29 or later (January
+  2022)
+* [Simple-Calendar](https://github.com/SimpleMobileTools/Simple-Calendar/) version 4.0.0 or later (
+  May 2018)
+* Buildin Android-Calender (Tested with android-10 on LG device)
+* Backup [Calendar Import-Export](https://f-droid.org/packages/org.sufficientlysecure.ical) version
+  2.4 or later (November 2016)
+
+## Configuration
+![](https://raw.githubusercontent.com/k3b/calef/master/fastlane/metadata/android/en-US/images/phoneScreenshots/CalEF-Settings.png)
+
+Use the settings page to choose language, day, date, time and message format. 
+
+Under "Example Day/Date/Time" and "Last used Calendar Event" you can see what the result would be.
+
+## Date/Time Formatting examples
 Date/Time is formatted according to language/locale. Examples:
 
 <table>
@@ -44,36 +80,6 @@ Date/Time is formatted according to language/locale. Examples:
 </table>
 
 ---
-
-![](https://raw.githubusercontent.com/k3b/calef/master/fastlane/metadata/android/en-US/images/phoneScreenshots/CalEF-Settings.png)
-
-Use the settings page to choose language, day, date, time and message format. Under "Example
-Day/Date/Time" and "Last used Calendar Event" you can see what the result would be.
-
----
-
-* Translations via
-  crowdin.com: [![Crowdin](https://badges.crowdin.net/calef/localized.svg)](https://crowdin.com/project/calef)
-* Download: [<img src="https://f-droid.org/badge/get-it-on.png"
-  alt="Get it on F-Droid"
-  height="80">](https://f-droid.org/app/de.k3b.android.calef) 
-* Download: ![](https://github.com/k3b/calef/raw/master/app/src/debug/res/drawable/qr_code_url_calef_fdroid.png)
-
-## Requirements:
-
-* Android-4.0 (api 14) or later
-* Required Permissions:
-  * none
-
-## Compatible android apps
-
-* [Etar-Calendar](https://github.com/Etar-Group/Etar-Calendar/)  version 1.0.29 or later (January
-  2022)
-* [Simple-Calendar](https://github.com/SimpleMobileTools/Simple-Calendar/) version 4.0.0 or later (
-  May 2018)
-* Buildin Android-Calender (Tested with android-10 on LG device)
-* Backup [Calendar Import-Export](https://f-droid.org/packages/org.sufficientlysecure.ical) version
-  2.4 or later (November 2016)
 
 ## Technical details
 
