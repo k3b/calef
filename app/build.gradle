@@ -2,24 +2,21 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 34
-
     packagingOptions {
-        // prevent duplicate files
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude '**/package-info.java'
-        exclude 'META-INF/groovy-release-info.properties'
-        exclude 'META-INF/INDEX.LIST'
-        exclude('META-INF/groovy/**')       //  124 files (uncompressed 215kb) with unused language specific rules
-        exclude('zoneinfo-global/**')       //  ?? nearly a duplicate of zoneinfo 217KB ??
-
-        exclude('org/apache/commons/codec/language/bm/*.txt')       //  124 files (uncompressed 215kb) with unused language specific rules
+        jniLibs {
+            excludes += ['META-INF/groovy/**', 'zoneinfo-global/**']
+        }
+        resources {
+            excludes += ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', '**/package-info.java', 'META-INF/groovy-release-info.properties', 'META-INF/INDEX.LIST', 'META-INF/groovy/**', 'zoneinfo-global/**', 'org/apache/commons/codec/language/bm/*.txt']
+        }
     }
+
 
     defaultConfig {
         applicationId "de.k3b.android.calef"
         // Android 4.0 (api14)
         minSdkVersion 14
+        //noinspection EditedTargetSdkVersion
         targetSdkVersion 34
 
         versionCode 6
