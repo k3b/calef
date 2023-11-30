@@ -18,6 +18,7 @@
  */
 package de.k3b.android.calef;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -39,7 +40,8 @@ import de.k3b.calef.CalendarFormatter;
 /**
  * show settings/config activity. On Start and Exit checks if data is valid.
  */
-public class SettingsActivity extends PreferenceActivity {
+@SuppressLint("ExportedPreferenceActivity") // must be exported to become the app-launcher
+public class CalefSettingsActivity extends PreferenceActivity {
     private SharedPreferences prefsInstance = null;
 
     // pref elements in display order
@@ -95,9 +97,9 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 try {
-                    CalefActivity.sendResult(SettingsActivity.this, SettingsImpl.getLast(SettingsActivity.this));
+                    CalefIcsVcs2TxtActivity.sendResult(CalefSettingsActivity.this, SettingsImpl.getLast(CalefSettingsActivity.this));
                 } catch (Exception ex) {
-                    CalefActivity.toast(SettingsActivity.this, getString(R.string.error_cannot_convert_or_resend, "", ex.getMessage()));
+                    CalefIcsVcs2TxtActivity.toast(CalefSettingsActivity.this, getString(R.string.error_cannot_convert_or_resend, "", ex.getMessage()));
 
                 }
                 return false;
@@ -108,7 +110,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 setLanguage((String) newValue);
-                LocalizedActivity.recreate(SettingsActivity.this);
+                LocalizedActivity.recreate(CalefSettingsActivity.this);
                 return true; // change is allowed
             }
         });
@@ -117,7 +119,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 prefMessagePrefix.setText((String) newValue);
-                SettingsImpl.setMessagePrefix(SettingsActivity.this, prefsInstance, (String) newValue);
+                SettingsImpl.setMessagePrefix(CalefSettingsActivity.this, prefsInstance, (String) newValue);
                 showValues();
                 return false; // value is already set
             }
@@ -146,7 +148,7 @@ public class SettingsActivity extends PreferenceActivity {
             dump(result, xmas, names[i], locales[i]);
         }
         result.append("</table>");
-        Log.i(CalefActivity.TAG, result.toString());
+        Log.i(CalefIcsVcs2TxtActivity.TAG, result.toString());
     }
 
     private void dump(StringBuilder result, Date date, String name, String localeName) {

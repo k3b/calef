@@ -44,7 +44,7 @@ import de.k3b.calef.CalendarFormatter;
 /**
  * Translates an ICS/VCS stream to a human readable Text.
  */
-public class CalefActivity extends LocalizedActivity {
+public class CalefIcsVcs2TxtActivity extends LocalizedActivity {
     public static final String TAG = "k3b.calef";
     private static final Logger logger = LoggerFactory.getLogger(TAG);
     private static final int REQUEST_ID_SHARE_RESULT = 1;
@@ -115,7 +115,7 @@ public class CalefActivity extends LocalizedActivity {
                     sendResult(this, calendar);
                     SettingsImpl.putLast(this, calendar);
                 } catch (Exception ex) {
-                    logger.warn("Error in onCreate-startActivityForResult " + uri, ex);
+                    logger.warn("Error in onCreate " + uri, ex);
                     toast(this, getString(R.string.error_cannot_convert_or_resend, uri, ex.getMessage()));
                     setResult(RESULT_CANCELED);
                     finish();
@@ -127,7 +127,7 @@ public class CalefActivity extends LocalizedActivity {
     }
 
     // support for onActivityResult
-    // CalendarApp -> CalefActivity -> result-send-Activity -> CalefActivity -> return-result-to-CalendarApp
+    // CalendarApp -> CalefIcsVcs2TxtActivity -> result-send-Activity -> CalefIcsVcs2TxtActivity -> return-result-to-CalendarApp
     // Forward result of result-send-Activity
     // to caller of this activity {CalendarApp}.
     @Override

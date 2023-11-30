@@ -19,7 +19,7 @@
 
         <!-- visible settings gui -->
         <activity
-            android:name="SettingsActivity"
+            android:name=".CalefSettingsActivity"
             android:screenOrientation="fullSensor"
             android:exported="true"
             tools:ignore="ExportedPreferenceActivity">
@@ -31,7 +31,7 @@
 
         <!-- invisible receiver for technical 'ics' or 'vcs' messages that does the translation -->
         <activity
-            android:name="CalefActivity"
+            android:name=".CalefIcsVcs2TxtActivity"
             android:exported="true">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.SEND" />

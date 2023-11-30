@@ -31,8 +31,8 @@ public class Global {
 
     public static final String LOG_CONTEXT = "calef";
     /**
-     * true: addToCompressQue several Log.d(...) to show what is going on.
-     * debugEnabled is updated by the SettingsActivity
+     * true: several Log.d(...) to show what is going on.
+     * debugEnabled is updated by the CalefSettingsActivity
      */
     public static boolean debugEnabled = false;
 

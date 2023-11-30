@@ -35,6 +35,8 @@ import net.fortuna.ical4j.util.MapTimeZoneCache;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.net.QuotedPrintableCodec;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,18 +190,22 @@ public class CalendarFormatter {
         return result;
     }
 
-    public String toString(Calendar calendar) {
+    @NotNull
+    public String toString(@Nullable Calendar calendar) {
         StringBuilder result = new StringBuilder();
-        ComponentList events = calendar.getComponents(VEvent.VEVENT);
-        if (events != null && !events.isEmpty()) {
-            if (messagePrefix != null) {
-                result.append(messagePrefix).append("\n");
-            }
-            for (Object event : events) {
-                add(result, (VEvent) event);
+        if (calendar != null) {
+            ComponentList events = calendar.getComponents(VEvent.VEVENT);
+            if (events != null && !events.isEmpty()) {
+                if (messagePrefix != null) {
+                    result.append(messagePrefix).append("\n");
+                }
+                for (Object event : events) {
+                    add(result, (VEvent) event);
+                }
             }
         }
         return result.toString();
+
     }
 
     private void add(StringBuilder result, VEvent event) {
