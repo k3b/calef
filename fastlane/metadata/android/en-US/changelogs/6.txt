@@ -1,1 +1,11 @@
-TODO
+Changes from Version 1.1.2(5) to 1.1.2.1(6)
+
+Maintanance: Updated libs. No new features or bugfixes
+* compileSdkVersion 30->34
+* ical4j 2.2.6->2.2.7
+* commons-codec 1.11-> 1.16.0
+* slf4j 1.7.32->2.0.9
+
+Build Goals:
+* stay compatible with Android4.0 (api-14)
+* remain minimal apk-size (java-8, no Java-11+desugaring-lib)

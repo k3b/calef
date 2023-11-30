@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 34
 
     packagingOptions {
         // prevent duplicate files
@@ -20,11 +20,12 @@ android {
         applicationId "de.k3b.android.calef"
         // Android 4.0 (api14)
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 34
 
-        versionCode 5
-        versionName "1.1.2"
+        versionCode 6
+        versionName "1.1.2.1"
 
+        // 1.1.2.1 (6) maintanance Updated libs and compileSdk
         // 1.1.2 (5) Fixed Initialisation Error
         // 1.1.1 (4) reordered Settings; Fixed Initialisation Error
         // 1.1.0 (3) added optional message prefix ("I have added this to my calendar")
@@ -56,30 +57,36 @@ android {
         abortOnError false
     }
     compileOptions {
+        // java 8 needed for android-4.x
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.annotation:annotation:1.7.0'
 
     // ical4j see https://ical4j.github.io/ical4j-user-guide/examples/
-//    implementation 'org.mnode.ical4j:ical4j:3.1.0' // requires api-26
-//    implementation 'org.mnode.ical4j:ical4j:3.0.29' // requires api-26
+//    implementation 'org.mnode.ical4j:ical4j:3.1.0' // requires api-26 + java11
+//    implementation 'org.mnode.ical4j:ical4j:3.0.29' // requires api-26 + java11
 //    implementation 'org.mnode.ical4j:ical4j:1.0.8' // most recent version 1.x: compiles with api-7 + java6
 
     //noinspection GradleDependency
-    implementation 'org.mnode.ical4j:ical4j:2.2.6' // most recent version 2.x: compiles with api-14 + java8
+    implementation 'org.mnode.ical4j:ical4j:2.2.7' // most recent version 2.x: compiles with api-14 + java8
 
     implementation 'backport-util-concurrent:backport-util-concurrent:3.1'
-    implementation 'commons-codec:commons-codec:1.11'
+
+    // do not automatically update to 20041127.091804 which is much older that 1.16.0
+    //noinspection GradleDependency
+    implementation 'commons-codec:commons-codec:1.16.0'
     implementation 'commons-lang:commons-lang:2.6'
     testImplementation 'junit:junit:4.13.2'
 
-    implementation 'org.slf4j:slf4j-api:1.7.32'
-    testImplementation 'org.slf4j:slf4j-simple:1.7.32'    // causes warning in unittests: "SLF4J: Class path contains multiple SLF4J bindings."
-    implementation 'uk.uuid.slf4j:slf4j-android:1.7.32-0' // uses app/src/main/resources/uk/uuid/slf4j/android/config.properties
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.9'
+    // causes warning in unittests: "SLF4J: Class path contains multiple SLF4J bindings."
+    implementation 'uk.uuid.slf4j:slf4j-android:2.0.9-0'
+    // uses app/src/main/resources/uk/uuid/slf4j/android/config.properties
 }
 
 
