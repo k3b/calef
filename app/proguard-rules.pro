@@ -25,7 +25,7 @@
 -dontwarn groovy.**
 -dontwarn org.codehaus.groovy.**
 -dontwarn org.apache.commons.logging.**
--dontwarn sun.misc.Perf
+# -dontwarn sun.misc.Perf
 
 -dontnote com.google.vending.**
 -dontnote com.android.vending.licensing.**

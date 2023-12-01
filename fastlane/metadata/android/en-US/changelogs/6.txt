@@ -1,7 +1,7 @@
 Changes from Version 1.1.2(5) 7/2022 to 1.1.2.1(6) 12/2023
 
 Maintanance: Updated libs. No new features or bugfixes
-* android-gradle 4.1.3->4.2.2
+* android-gradle 4.1.3->7.5
 * compileSdkVersion 30->34
 * ical4j 2.2.6->2.2.7
 * commons-codec 1.11-> 1.16.0

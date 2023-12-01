@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     packagingOptions {
         jniLibs {
             excludes += ['META-INF/groovy/**', 'zoneinfo-global/**']
@@ -43,20 +43,22 @@ android {
             resValue "string", "debug_title", "DEBUG-" + getDate()
         }
     }
-    lintOptions {
+    compileOptions {
+        // java 8 needed for android-4.x
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    namespace 'de.k3b.android.calef'
+    lint {
+        abortOnError false
+        // checkReleaseBuilds false
+
         // http://stackoverflow.com/questions/31350350/generating-signed-apk-error7-missingtranslation-in-build-generated-res-gen
         // MissingTranslation : not all crowdwin translations are complete so ignore them
         // ValidFragment : local (dialog-)fragment class for customized directory picker is fragile but on rotation code makes sure that dialog is closed.
         // disable 'MissingTranslation','ValidFragment', 'ContentDescription', 'AndroidLintPluralsCandidate', 'AndroidLintRtlHardcoded'
         // disable 'MissingTranslation','ValidFragment', 'ContentDescription', 'ExpiredTargetSdkVersion'
-        disable 'MissingTranslation','ContentDescription', 'ExpiredTargetSdkVersion'
-
-        abortOnError false
-    }
-    compileOptions {
-        // java 8 needed for android-4.x
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        disable 'MissingTranslation', 'ContentDescription', 'ExpiredTargetSdkVersion'
     }
 }
 

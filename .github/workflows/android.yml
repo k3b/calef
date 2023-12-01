@@ -16,7 +16,7 @@ jobs:
     - name: set up JDK 8
       uses: actions/setup-java@v4
       with:
-        java-version: '8'
+        java-version: '17'
         distribution: 'adopt'
         cache: gradle
 
@@ -24,4 +24,4 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       # run: ./gradlew build # not working see https://stackoverflow.com/questions/70581448/how-to-get-more-infos-about-a-failed-unittest-in-github-actions-android-ci
-      run: ./gradlew assemble
+      run: ./gradlew build test

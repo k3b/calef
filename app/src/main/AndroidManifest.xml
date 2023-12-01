@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="de.k3b.android.calef">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- do not do any backup for android-12 and later
      see https://stackoverflow.com/questions/70365809/how-to-specify-to-not-allow-any-data-backup-with-androiddataextractionrules -->
