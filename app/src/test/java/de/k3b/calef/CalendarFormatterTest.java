@@ -115,9 +115,9 @@ public class CalendarFormatterTest {
     private String fix(String actual) {
         return actual
                 .replace(". ", " ")
-                .replaceAll("[\\s\\u00a0]+"," ") // non-breaking-space aka &nbsp;
+                .replaceAll("[\\u00a0\\u202F\\u2060]+"," ") // non-breaking-space aka &nbsp;
 //                .replaceAll("\\s+"," ") // other type of blank, tab, cr, lf
-//                .replace("  ", " ")
+                .replace("  ", " ")
                 .trim();
     }
 

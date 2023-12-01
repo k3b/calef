@@ -25,10 +25,20 @@
 -dontwarn groovy.**
 -dontwarn org.codehaus.groovy.**
 -dontwarn org.apache.commons.logging.**
-# -dontwarn sun.misc.Perf
 
 -dontnote com.google.vending.**
 -dontnote com.android.vending.licensing.**
+
+## log4j: remove net.fortuna.ical4j.util.JCacheTimeZoneCache.** that requires javax.cache.**
+## use MapTimeZoneCache instead
+-assumenosideeffects class net.fortuna.ical4j.util.JCacheTimeZoneCache
+-assumenosideeffects class javax.cache.Cache
+-assumenosideeffects class javax.cache.CacheManager
+-assumenosideeffects class javax.cache.Caching
+-assumenosideeffects class javax.cache.configuration.Configuration
+-assumenosideeffects class javax.cache.configuration.MutableConfiguration
+-assumenosideeffects class javax.cache.spi.CachingProvider
+-keep class net.fortuna.ical4j.util.MapTimeZoneCache
 
 ###################
 # Get rid of #can't find referenced method in library class java.lang.Object# warnings for clone() and finalize()
@@ -43,4 +53,3 @@
 -keepnames class ** { *; }
 -keepnames interface ** { *; }
 -keepnames enum ** { *; }
--keep class net.fortuna.ical4j.util.MapTimeZoneCache

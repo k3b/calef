@@ -38,6 +38,7 @@ android {
 
         }
         debug {
+            minifyEnabled false
             applicationIdSuffix ".debug"
             versionNameSuffix "-DEBUG"
             resValue "string", "debug_title", "DEBUG-" + getDate()
@@ -71,7 +72,11 @@ dependencies {
 //    implementation 'org.mnode.ical4j:ical4j:1.0.8' // most recent version 1.x: compiles with api-7 + java6
 
     //noinspection GradleDependency
-    implementation 'org.mnode.ical4j:ical4j:2.2.7' // most recent version 2.x: compiles with api-14 + java8
+    // most recent version 2.x: compiles with api-14 + java8
+    implementation 'org.mnode.ical4j:ical4j:2.2.7'
+
+    // required by ical4j R8-minify: must be present in order to be removed :-/
+    implementation 'javax.cache:cache-api:1.1.1'
 
     implementation 'backport-util-concurrent:backport-util-concurrent:3.1'
 

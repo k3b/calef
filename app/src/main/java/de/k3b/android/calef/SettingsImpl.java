@@ -25,6 +25,7 @@ import android.util.Log;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.util.MapTimeZoneCache;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -52,6 +53,10 @@ public class SettingsImpl {
      * Load values from prefs. return current formatter
      */
     public static CalendarFormatter init(final Context context) {
+        // operate ical4j with minify. see https://stackoverflow.com/questions/50733209/ical4j-2-2-0-using-grape-throws-java-lang-noclassdeffounderror-javax-cache-con
+        new MapTimeZoneCache(); // tell proguard that the class is used
+        System.setProperty("net.fortuna.ical4j.timezone.cache.impl", "net.fortuna.ical4j.util.MapTimeZoneCache");
+
         final SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
 
