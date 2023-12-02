@@ -37,7 +37,9 @@ public class CalendarFormatterTest {
 
     @BeforeClass
     public static void init() {
-        TimeZone.setDefault(TimeZone.getTimeZone("CET"));
+        // fix failing on buildserver (from https://stackoverflow.com/questions/6981890/new-datelong-gives-different-results )
+        TimeZone.setDefault(TimeZone.getTimeZone("CET")); // works inside android-studio
+        System.setProperty("user.timezone", "CET"); // works on commandline runner
     }
 
     @Test
